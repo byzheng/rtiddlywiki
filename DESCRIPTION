@@ -10,7 +10,9 @@ Encoding: UTF-8
 LazyData: true
 Imports:
    settings,
-   httr
+   httr,
+   rmarkdown,
+   utils
 RoxygenNote: 7.1.2
 Suggests: 
     testthat (>= 3.0.0)

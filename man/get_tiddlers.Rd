@@ -4,7 +4,7 @@
 \alias{get_tiddlers}
 \title{Get all tiddlers}
 \usage{
-get_tiddlers(id = NULL, filter = NULL, exclude = NULL)
+get_tiddlers(filter = NULL, exclude = NULL)
 }
 \arguments{
 \item{filter}{filter identifying tiddlers to be returned (optional, defaults to "[all[tiddlers]!is[system]sort[title]]")}

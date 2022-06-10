@@ -4,8 +4,7 @@
 #' @param exclude comma delimited list of fields to excluded from the returned tiddlers (optional, defaults to "text")
 #' @return all tiddlers information in JSON format
 #' @export
-get_tiddlers <- function(id = NULL,
-                       filter = NULL,
+get_tiddlers <- function(filter = NULL,
                        exclude = NULL) {
     query <- list()
     if (!is.null(filter)) {
@@ -32,7 +31,7 @@ get_tiddlers <- function(id = NULL,
 #' @export
 get_tiddler <- function(title) {
     response <- request(httr::GET, paste0('/recipes/default/tiddlers/',
-                                          URLencode(title)))
+                                          utils::URLencode(title)))
     httr::stop_for_status(response)
     response <- httr::content(response)
     response
@@ -46,7 +45,7 @@ get_tiddler <- function(title) {
 #' @return tiddler rendering in html
 #' @export
 get_rendered_tiddler <- function(title) {
-    #response <- request(httr::GET, URLencode(title))
+    #response <- request(httr::GET, utils::URLencode(title))
     #httr::stop_for_status(response)
     #response <- httr::content(response)
     #response
