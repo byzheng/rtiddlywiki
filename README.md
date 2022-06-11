@@ -10,6 +10,9 @@
 R interface for tiddlywiki
 
 
+* Communicate with WebServer API for node.js only.
+* Generate markdown tiddler from Rmarkdown file.
+
 
 
 ## Installation
