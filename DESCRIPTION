@@ -15,4 +15,5 @@ Imports:
    utils
 RoxygenNote: 7.1.2
 Suggests: 
+    covr,
     testthat (>= 3.0.0)
