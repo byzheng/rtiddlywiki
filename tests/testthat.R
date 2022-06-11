@@ -1,4 +1,4 @@
 library(testthat)
-library(tiddlywiki)
+library(rtiddlywiki)
 
 test_check("rtiddlywiki")

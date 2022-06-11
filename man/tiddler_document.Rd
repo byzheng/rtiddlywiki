@@ -4,7 +4,10 @@
 \alias{tiddler_document}
 \title{Format for converting from R Markdown to another tiddler markdown}
 \usage{
-tiddler_document()
+tiddler_document(path = ".")
+}
+\arguments{
+\item{path}{The folder of tiddlywiki}
 }
 \value{
 R Markdown output format to pass to render()
