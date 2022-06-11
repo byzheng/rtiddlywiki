@@ -5,7 +5,7 @@
 #' @export
 get_file <- function(path) {
     response <- request(httr::GET, paste0('/files/',
-                                          utils::URLencode(path)))
+                                          path))
     httr::stop_for_status(response)
     response <- httr::content(response)
 

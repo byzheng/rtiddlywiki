@@ -12,7 +12,8 @@ Imports:
    settings,
    httr,
    rmarkdown,
-   utils
+   utils,
+   jsonlite
 RoxygenNote: 7.1.2
 Suggests: 
     covr,

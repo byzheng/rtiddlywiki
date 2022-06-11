@@ -19,10 +19,10 @@ tiddler_document <- function(path = ".") {
     # Define post processor function
     post_processor <- function(metadata, input_file, output_file, clean, verbose) {
         file.copy(input_file, paste0(input_file, '.bck'))
-        # print(input_file)
-        # print(output_file)
-        # print(clean)
-        # print(verbose)
+        print(input_file)
+        print(output_file)
+        print(clean)
+        print(verbose)
         print(path)
         output_file
     }

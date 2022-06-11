@@ -15,7 +15,7 @@ request <- function(method,
                            query = list(),
                            ...) {
     # Remove the leading "/" if it has one.
-    path <- gsub('^/*(.*)$', "\\1", path)
+    path <- utils::URLencode(gsub('^/*(.*)$', "\\1", path))
 
     host <- TW_OPTIONS("host")
 
