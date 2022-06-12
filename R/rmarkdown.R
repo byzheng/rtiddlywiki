@@ -11,7 +11,7 @@
 #' @examples
 #' if (FALSE) {
 #' library(rmarkdown)
-#' render("input.Rmd", tiddler_document())
+#' render("input.Rmd")
 #' }
 tiddler_document <- function(host = NULL, path = NULL, tags = NULL) {
 

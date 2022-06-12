@@ -4,6 +4,11 @@
 #' @param exclude comma delimited list of fields to excluded from the returned tiddlers (optional, defaults to "text")
 #' @return all tiddlers information in JSON format
 #' @export
+#' @examples
+#' if (FALSE) {
+#' #' Get all tiddlers
+#' get_tiddlers()
+#' }
 get_tiddlers <- function(filter = NULL,
                        exclude = NULL) {
     query <- list()
@@ -29,6 +34,10 @@ get_tiddlers <- function(filter = NULL,
 #' @param title  title of the tiddler to retrieve
 #' @return tiddler information in JSON format
 #' @export
+#' @examples
+#' if (FALSE) {
+#' get_tiddler("GettingStarted")
+#' }
 get_tiddler <- function(title) {
     response <- request(httr::GET, paste0('/recipes/default/tiddlers/',
                                           title))
@@ -47,6 +56,15 @@ get_tiddler <- function(title) {
 #' @param tags tiddler tags
 #' @return null if success
 #' @export
+#' @examples
+#' if (FALSE) {
+#' title <- "New tiddler"
+#' text <- c("!! Section",
+#'           "This is a new tiddler")
+#' type <- "text/vnd.tiddlywiki"
+#' tags <- c("Tag1", "Tag 2")
+#' put_tiddler(title = title, text = text, type = type, tags = tags)
+#' }
 put_tiddler <- function(title, text,
                         type = c("text/vnd.tiddlywiki",
                                  "text/x-tiddlywiki",
