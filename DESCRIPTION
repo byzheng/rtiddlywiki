@@ -8,6 +8,9 @@ Description: R interface of TiddlyWiki is used to get tiddlers and create new ti
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+URL: https://rtiddlywiki.bangyou.me/,
+    https://github.com/byzheng/rtiddlywiki
+BugReports: https://github.com/byzheng/rtiddlywiki/issues
 Imports:
    settings,
    httr,
