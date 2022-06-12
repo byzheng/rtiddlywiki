@@ -27,3 +27,13 @@ null if success
 \description{
 Put a tiddler
 }
+\examples{
+if (FALSE) {
+title <- "New tiddler"
+text <- c("!! Section",
+          "This is a new tiddler")
+type <- "text/vnd.tiddlywiki"
+tags <- c("Tag1", "Tag 2")
+put_tiddler(title = title, text = text, type = type, tags = tags)
+}
+}

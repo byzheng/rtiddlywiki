@@ -22,6 +22,6 @@ Format for converting from R Markdown to another tiddler markdown
 \examples{
 if (FALSE) {
 library(rmarkdown)
-render("input.Rmd", tiddler_document())
+render("input.Rmd")
 }
 }

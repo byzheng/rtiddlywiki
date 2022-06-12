@@ -17,3 +17,9 @@ all tiddlers information in JSON format
 \description{
 Get all tiddlers
 }
+\examples{
+if (FALSE) {
+#' Get all tiddlers
+get_tiddlers()
+}
+}

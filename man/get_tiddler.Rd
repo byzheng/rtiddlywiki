@@ -15,3 +15,8 @@ tiddler information in JSON format
 \description{
 Get a tiddler
 }
+\examples{
+if (FALSE) {
+get_tiddler("GettingStarted")
+}
+}
