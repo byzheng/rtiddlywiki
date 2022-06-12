@@ -46,7 +46,7 @@ The `yaml` header can be specified to export `tiddler_document`.
 title: "R Markdown file"
 output: 
   rtiddlywiki::tiddler_document:
-    path: "C:/Users/zhe00a/OneDriveCSIRO/Working/09-Blog/tiddlytest"
+    path: "full-path-to-tiddlywiki-project"
     host: "http://127.0.0.1:8080/"
     tags: ["tag 1", "tag 2"]
 ```
