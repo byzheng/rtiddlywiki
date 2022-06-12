@@ -2,5 +2,8 @@ pandoc: 2.7.3
 pkgdown: 2.0.4
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-06-12T06:55Z
+last_built: 2022-06-12T07:03Z
+urls:
+  reference: https://rtiddlywiki.bangyou.me/reference
+  article: https://rtiddlywiki.bangyou.me/articles
 
