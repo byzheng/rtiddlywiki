@@ -4,10 +4,14 @@
 \alias{tiddler_document}
 \title{Format for converting from R Markdown to another tiddler markdown}
 \usage{
-tiddler_document(path = ".")
+tiddler_document(host = NULL, path = NULL, tags = NULL)
 }
 \arguments{
-\item{path}{The folder of tiddlywiki}
+\item{host}{the host of tiddlywiki web server}
+
+\item{path}{The folder of tiddlywiki. Temp solution as no PUT file api in tiddlywiki WebServer.}
+
+\item{tags}{tiddler tags}
 }
 \value{
 R Markdown output format to pass to render()
