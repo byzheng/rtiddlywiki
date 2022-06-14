@@ -48,7 +48,13 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tiddler_document</span><span class="op">(</span>host <span class="op">=</span> <span class="cn">NULL</span>, path <span class="op">=</span> <span class="cn">NULL</span>, tags <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tiddler_document</span><span class="op">(</span>
+  host <span class="op">=</span> <span class="cn">NULL</span>,
+  path <span class="op">=</span> <span class="cn">NULL</span>,
+  tags <span class="op">=</span> <span class="cn">NULL</span>,
+  use_bookdown <span class="op">=</span> <span class="cn">FALSE</span>,
+  <span class="va">...</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -63,6 +69,10 @@
 
 <dt>tags</dt>
 <dd><p>tiddler tags</p></dd>
+
+
+<dt>use_bookdown</dt>
+<dd><p>logical. Use bookdown to generate markdown file.</p></dd>
 
 
 <dt>...</dt>
