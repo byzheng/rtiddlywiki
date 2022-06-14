@@ -4,7 +4,13 @@
 \alias{tiddler_document}
 \title{Format for converting from R Markdown to another tiddler markdown}
 \usage{
-tiddler_document(host = NULL, path = NULL, tags = NULL, ...)
+tiddler_document(
+  host = NULL,
+  path = NULL,
+  tags = NULL,
+  use_bookdown = FALSE,
+  ...
+)
 }
 \arguments{
 \item{host}{the host of tiddlywiki web server}
@@ -12,6 +18,8 @@ tiddler_document(host = NULL, path = NULL, tags = NULL, ...)
 \item{path}{The folder of tiddlywiki. Temp solution as no PUT file api in tiddlywiki WebServer.}
 
 \item{tags}{tiddler tags}
+
+\item{use_bookdown}{logical. Use bookdown to generate markdown file.}
 
 \item{...}{Other argument pass to md_document}
 }

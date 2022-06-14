@@ -5,6 +5,7 @@
 #' @param host the host of tiddlywiki web server
 #' @param path The folder of tiddlywiki. Temp solution as no PUT file api in tiddlywiki WebServer.
 #' @param tags tiddler tags
+#' @param use_bookdown logical. Use bookdown to generate markdown file.
 #' @param ... Other argument pass to md_document
 #' @return R Markdown output format to pass to render()
 #' @export
@@ -14,10 +15,15 @@
 #' library(rmarkdown)
 #' render("input.Rmd")
 #' }
-tiddler_document <- function(host = NULL, path = NULL, tags = NULL, ...) {
+tiddler_document <- function(host = NULL, path = NULL, tags = NULL,
+                             use_bookdown = FALSE, ...) {
 
     # Get md document
-    output <- rmarkdown::md_document(...)
+    if (use_bookdown) {
+        output <- bookdown::markdown_document2(...)
+    } else {
+        output <- rmarkdown::md_document(...)
+    }
     # Define post processor function
     post_processor <- function(metadata, input_file, output_file, clean, verbose) {
         print(input_file)

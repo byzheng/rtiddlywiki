@@ -16,7 +16,8 @@ Imports:
    httr,
    rmarkdown,
    utils,
-   jsonlite
+   jsonlite,
+   bookdown
 RoxygenNote: 7.1.2
 Suggests: 
     covr,
