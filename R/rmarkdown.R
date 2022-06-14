@@ -31,7 +31,7 @@ tiddler_document <- function(host = NULL, path = NULL, tags = NULL,
         file.copy(input_file, paste0(input_file, ".bck"))
         file.copy(output_file, paste0(output_file, ".bck"))
         title <- readLines(input_file)
-        pattern <- "^title: *\"(.+)\"$ *"
+        pattern <- "^title: *\"*(.+)\"*$ *"
         pos <- grepl(pattern = pattern, title)
         if (sum(pos) != 0) {
             title <- gsub(pattern, "\\1", title[pos])
