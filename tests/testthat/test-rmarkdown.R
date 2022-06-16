@@ -1,10 +1,22 @@
+test_that("Get title", {
+    expect_null(.get_title("test"))
+    expect_equal(.get_title("title: test"), "test")
+    expect_equal(.get_title("title: \"test\""), "test")
+    expect_equal(.get_title("title: \"this is a test\""), "this is a test")
+    expect_equal(.get_title("title: \"this is a \"test\"\""),
+                 "this is a \"test\"")
+})
+
 test_that("rmarkdown", {
+
+
     skip_on_cran()
     skip_if_not_pandoc <- function() {
         if (!rmarkdown::pandoc_available()) {
             skip("Pandoc is not available")
         }
     }
+
 
     render_rmd <- function(..., .env = parent.frame()) {
         temp_input_file <- tempfile(fileext = ".Rmd")
@@ -18,6 +30,16 @@ test_that("rmarkdown", {
     }
 
     skip_if_not_pandoc()
+    rmd <- render_rmd(c("---", "title: \"test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "---", "",
+                        "# Section 1",
+                        "This is a test"))
+    expect_equal(rmd$tags, "[[tag1]] [[tag 2]]")
+    expect_equal(rmd$title, "test")
+
     rmd <- render_rmd(c("---", "title: test",
                         "output: ",
                         "  tiddler_document:",
@@ -27,6 +49,7 @@ test_that("rmarkdown", {
                         "This is a test"))
     expect_equal(rmd$tags, "[[tag1]] [[tag 2]]")
     expect_equal(rmd$title, "test")
+
 
     rmd <- render_rmd(c("---", "title: test",
                         "output: ",

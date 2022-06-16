@@ -1,4 +1,17 @@
 
+.get_title <- function(text) {
+    pattern <- "^title: *(.+) *$"
+
+    pos <- grepl(pattern = pattern, text)
+    if (sum(pos) != 0) {
+        title <- gsub(pattern, "\\1", text[pos])
+        title <- gsub("^\"", "", title)
+        title <- gsub("\"$", "", title)
+    } else {
+        title <- NULL
+    }
+    title
+}
 
 #' Format for converting from R Markdown to another tiddler markdown
 #'
@@ -26,16 +39,13 @@ tiddler_document <- function(host = NULL, path = NULL, tags = NULL,
     }
     # Define post processor function
     post_processor <- function(metadata, input_file, output_file, clean, verbose) {
-        print(input_file)
-        print(output_file)
-        file.copy(input_file, paste0(input_file, ".bck"))
-        file.copy(output_file, paste0(output_file, ".bck"))
+        # print(input_file)
+        # print(output_file)
+        # file.copy(input_file, paste0(input_file, ".bck"))
+        # file.copy(output_file, paste0(output_file, ".bck"))
         title <- readLines(input_file)
-        pattern <- "^title: *\"*(.+)\"*$ *"
-        pos <- grepl(pattern = pattern, title)
-        if (sum(pos) != 0) {
-            title <- gsub(pattern, "\\1", title[pos])
-        } else {
+        title <- .get_title(title)
+        if (is.null(title)) {
             title <- tools::file_path_sans_ext(basename(output_file))
         }
         text <- readLines(output_file)
