@@ -5,3 +5,4 @@
 *.Rds
 test.R
 docs
+cran-comments.md
