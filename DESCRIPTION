@@ -4,7 +4,7 @@ Title: R Interface for TiddlyWiki
 Version: 0.1.0
 Author: Bangyou Zheng
 Maintainer: Bangyou Zheng <Bangyou.Zheng@csiro.au>
-Description: R interface of TiddlyWiki is used to get tiddlers and create new tiddler for web server only.
+Description: R interface of TiddlyWiki is used to create new tiddler from Rmarkdown file which is only supported for TiddlyWiki WebServer.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
