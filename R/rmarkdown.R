@@ -13,6 +13,33 @@
     title
 }
 
+.pretty_link <- function(text) {
+#    pattern <- "\\\\\\[\\\\\\[([a-zA-Z0-9 |]+)\\\\\\]\\\\\\]"
+    pattern <- "\\\\\\[\\\\\\[([^\\[]+)\\\\\\]\\\\\\]"
+    gsub(pattern, "\\[\\[\\1\\]\\]", text)
+}
+
+
+
+.markdown_link <- function(text) {
+    #    pattern <- "\\\\\\[\\\\\\[([a-zA-Z0-9 |]+)\\\\\\]\\\\\\]"
+    pattern <- "(\\[[a-zA-Z0-9 ]+\\]\\(#)([a-zA-Z0-9 ]+)(\\))"
+    pos <- grep(pattern, text)
+    f <- function(x) {
+        link <- gsub(pattern, "\\2", x)
+        link <- utils::URLencode(link)
+        gsub(pattern, paste0("\\1", link, "\\3"), x)
+    }
+    i <- 1
+    for (i in seq(along = pos)) {
+        t_i <- text[pos[i]]
+        t_i <- stringr::str_replace_all(t_i, pattern, function(m) f(m))
+        text[pos[i]] <- t_i
+    }
+    text
+}
+
+
 #' Format for converting from R Markdown to another tiddler markdown
 #'
 #' @param host the host of tiddlywiki web server
@@ -81,6 +108,7 @@ tiddler_document <- function(host = NULL, path = NULL, tags = NULL,
                 text[pos_i] <- gsub(pattern[i], "\\1./files/\\2\\3", text[pos_i])
             }
         }
+        text <- .pretty_link(text)
         body <- .tiddler_json(title = title,
                               text = text,
                               type = "text/x-markdown",

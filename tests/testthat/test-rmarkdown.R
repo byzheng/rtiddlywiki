@@ -7,6 +7,31 @@ test_that("Get title", {
                  "this is a \"test\"")
 })
 
+
+test_that("pretty link", {
+    text <- c("See this \\[\\[This is a test\\]\\], link again",
+              "this is a new line",
+              "this line has \\[\\[link one\\]\\] and \\[\\[label|link two\\]\\]")
+    text2 <- .pretty_link(text)
+    expect_equal(text2[1], "See this [[This is a test]], link again")
+    expect_equal(text2[2], "this is a new line")
+    expect_equal(text2[3], "this line has [[link one]] and [[label|link two]]")
+})
+
+
+test_that("markdown link", {
+    text <- c("See this [This is a link](), link again",
+              "this is a new line",
+              "this line has [link one](#link 1) and [link two](#link2)",
+              "[a mornal link](https://example.org)")
+    text2 <- .markdown_link(text)
+    expect_equal(text2[1], "See this [This is a link](), link again")
+    expect_equal(text2[2], "this is a new line")
+    expect_equal(text2[3], "this line has [link one](#link%201) and [link two](#link2)")
+    expect_equal(text2[4], "[a mornal link](https://example.org)")
+})
+
+
 test_that("rmarkdown", {
 
 
@@ -63,4 +88,34 @@ test_that("rmarkdown", {
     expect_equal(rmd$tags, "[[tag1]] [[tag 2]]")
     expect_equal(rmd$title, "test")
     expect_equal(rmd$type, "text/x-markdown")
+
+
+    # Test renderwikitext
+    rmd <- render_rmd(c("---", "title: \"test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "---", "",
+                        "# Section 1",
+                        "[[This is a test]]"))
+    expect_equal(rmd$text, "# Section 1\r\n\r\n[[This is a test]]")
+
+
+    rmd <- render_rmd(c("---", "title: \"test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "---", "",
+                        "# Section 1",
+                        "{{This is a test}}"))
+    expect_equal(rmd$text, "# Section 1\r\n\r\n{{This is a test}}")
+
+    rmd <- render_rmd(c("---", "title: \"test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "---", "",
+                        "# Section 1",
+                        "test [md link](#tiddler 1) and [link](#tiddler2)"))
+    expect_equal(rmd$text, "# Section 1\r\n\r\ntest [md link](#tiddler%201) and [link](#tiddler2)")
   })
