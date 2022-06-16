@@ -96,9 +96,8 @@ test_that("rmarkdown", {
                         "  tiddler_document:",
                         "    tags: [\"tag1\", \"tag 2\"]",
                         "---", "",
-                        "# Section 1",
                         "[[This is a test]]"))
-    expect_equal(rmd$text, "# Section 1\r\n\r\n[[This is a test]]")
+    expect_equal(rmd$text, "[[This is a test]]")
 
 
     rmd <- render_rmd(c("---", "title: \"test\"",
@@ -106,16 +105,14 @@ test_that("rmarkdown", {
                         "  tiddler_document:",
                         "    tags: [\"tag1\", \"tag 2\"]",
                         "---", "",
-                        "# Section 1",
                         "{{This is a test}}"))
-    expect_equal(rmd$text, "# Section 1\r\n\r\n{{This is a test}}")
+    expect_equal(rmd$text, "{{This is a test}}")
 
     rmd <- render_rmd(c("---", "title: \"test\"",
                         "output: ",
                         "  tiddler_document:",
                         "    tags: [\"tag1\", \"tag 2\"]",
                         "---", "",
-                        "# Section 1",
                         "test [md link](#tiddler 1) and [link](#tiddler2)"))
-    expect_equal(rmd$text, "# Section 1\r\n\r\ntest [md link](#tiddler%201) and [link](#tiddler2)")
+    expect_equal(rmd$text, "test [md link](#tiddler%201) and [link](#tiddler2)")
   })
