@@ -1,0 +1,17 @@
+---
+title: "Example of rtiddlywiki"
+output:
+  rtiddlywiki::tiddler_document:
+    tags: ["tag1", "tag 2"]
+    use_bookdown: false
+    fields:
+      "field1": "V1"
+      "field 2": "Value 2"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Write as normal Rmarkdown file

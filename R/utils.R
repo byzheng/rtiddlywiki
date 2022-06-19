@@ -4,7 +4,8 @@
 #' @param title tiddler title
 #' @param text tiddler text
 #' @param type tiddler type
-#' @param tags tiddler tags
+#' @param tags a vector for tiddler tags
+#' @param fields a named vector for tiddler fields.
 #'
 #' @return New tiddler in json format
 .tiddler_json <- function(title, text,
@@ -13,7 +14,7 @@
                                    "text/x-markdown",
                                    "text/html",
                                    "text/plain"),
-                          tags = NULL) {
+                          tags = NULL, fields = NULL) {
     match.arg(type)
     if (!is.null(tags)) {
         if (!is.vector(tags)) {
@@ -23,6 +24,12 @@
             stop("tags should have at least one value.")
         }
         tags <- paste(paste0("[[", tags, "]]"), collapse = " ")
+    }
+    if (!is.null(fields)) {
+        f_names <- names(fields)
+        if (is.null(f_names) | sum(nchar(f_names) == 0) > 0) {
+            stop("fields should be a named vector")
+        }
     }
     if (is.null(title) || length(title) != 1 || !is.character(title)) {
         stop("title should be string with one item.")
@@ -37,6 +44,16 @@
                  # created = jsonlite::unbox(created),
                  # created = jsonlite::unbox(created),
                  tags = jsonlite::unbox(tags))
+    if (!is.null(fields)) {
+        f_names <- names(fields)
+        if (is.null(f_names) | sum(nchar(f_names) == 0) > 0) {
+            stop("fields should be a named vector")
+        }
+        for (i in seq(along = fields)) {
+            body[[f_names[i]]] <- jsonlite::unbox(as.character(fields[i]))
+        }
+    }
+
     jsonlite::toJSON(body, auto_unbox = FALSE,
                      null = 'null', pretty = TRUE)
 }

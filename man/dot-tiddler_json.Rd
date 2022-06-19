@@ -9,7 +9,8 @@
   text,
   type = c("text/vnd.tiddlywiki", "text/x-tiddlywiki", "text/x-markdown", "text/html",
     "text/plain"),
-  tags = NULL
+  tags = NULL,
+  fields = NULL
 )
 }
 \arguments{
@@ -19,7 +20,9 @@
 
 \item{type}{tiddler type}
 
-\item{tags}{tiddler tags}
+\item{tags}{a vector for tiddler tags}
+
+\item{fields}{a named vector for tiddler fields.}
 }
 \value{
 New tiddler in json format

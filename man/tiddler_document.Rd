@@ -8,6 +8,7 @@ tiddler_document(
   host = NULL,
   path = NULL,
   tags = NULL,
+  fields = NULL,
   use_bookdown = FALSE,
   ...
 )
@@ -18,6 +19,8 @@ tiddler_document(
 \item{path}{The folder of tiddlywiki. Temp solution as no PUT file api in tiddlywiki WebServer.}
 
 \item{tags}{tiddler tags}
+
+\item{fields}{a named vector for tiddler fields}
 
 \item{use_bookdown}{logical. Use bookdown to generate markdown file.}
 

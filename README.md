@@ -26,10 +26,12 @@ text <- c("!! Section",
           "This is a new tiddler")
 type <- "text/vnd.tiddlywiki"
 tags <- c("Tag1", "Tag 2")
+fields <- c("field 1" = "value 1", "field 2" = "field 2")
 put_tiddler(title = title, 
             text = text,
             type = type, 
-            tags = tags)
+            tags = tags,
+            fields = fields)
 ```
 
 ## Generate markdown tiddler from Rmarkdown file
@@ -49,6 +51,9 @@ output:
     path: "full-path-to-tiddlywiki-project"
     host: "http://127.0.0.1:8080/"
     tags: ["tag 1", "tag 2"]
+    fields:
+      "field1": "V1"
+      "field 2": "Value 2"
 ```
 
 The `title` in the Rmarkdown file is used as tiddler name. 

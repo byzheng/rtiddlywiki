@@ -115,4 +115,28 @@ test_that("rmarkdown", {
                         "---", "",
                         "test [md link](#tiddler 1) and [link](#tiddler2)"))
     expect_equal(rmd$text, "test [md link](#tiddler%201) and [link](#tiddler2)")
-  })
+
+    # Test fields
+    rmd <- render_rmd(c("---", "title: \"test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "    fields:",
+                        "      \"field1\": \"V1\"",
+                        "      \"field 2\": \"Value 2\"",
+                        "---", "",
+                        "{{This is a test}}"))
+    expect_equal(rmd$field1, "V1")
+    expect_equal(rmd$`field 2`, "Value 2")
+
+    rmd <- render_rmd(c("---", "title: \"test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "    fields:",
+                        "      \"field1\": \"V1\"",
+                        "      \"field 2\": \"Value 2\"",
+                        "---", "",
+                        "{{This is a test}}"))
+
+})

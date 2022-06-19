@@ -9,7 +9,8 @@ put_tiddler(
   text,
   type = c("text/vnd.tiddlywiki", "text/x-tiddlywiki", "text/x-markdown", "text/html",
     "text/plain"),
-  tags = NULL
+  tags = NULL,
+  fields = NULL
 )
 }
 \arguments{
@@ -20,6 +21,8 @@ put_tiddler(
 \item{type}{tiddler type}
 
 \item{tags}{tiddler tags}
+
+\item{fields}{a named vector for tiddler fields}
 }
 \value{
 null if success
@@ -34,6 +37,11 @@ text <- c("!! Section",
           "This is a new tiddler")
 type <- "text/vnd.tiddlywiki"
 tags <- c("Tag1", "Tag 2")
-put_tiddler(title = title, text = text, type = type, tags = tags)
+fields <- c("F1" = "V1", "F2" = "V2")
+put_tiddler(title = title,
+            text = text,
+            type = type,
+            tags = tags,
+            fields = fields)
 }
 }

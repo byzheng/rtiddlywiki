@@ -6,3 +6,4 @@
 test.R
 docs
 cran-comments.md
+inst/doc

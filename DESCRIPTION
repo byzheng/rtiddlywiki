@@ -22,4 +22,6 @@ Imports:
 RoxygenNote: 7.1.2
 Suggests: 
     covr,
+    knitr,
     testthat (>= 3.0.0)
+VignetteBuilder: knitr

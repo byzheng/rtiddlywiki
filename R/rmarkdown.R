@@ -45,6 +45,7 @@
 #' @param host the host of tiddlywiki web server
 #' @param path The folder of tiddlywiki. Temp solution as no PUT file api in tiddlywiki WebServer.
 #' @param tags tiddler tags
+#' @param fields a named vector for tiddler fields
 #' @param use_bookdown logical. Use bookdown to generate markdown file.
 #' @param ... Other argument pass to md_document
 #' @return R Markdown output format to pass to render()
@@ -55,9 +56,11 @@
 #' library(rmarkdown)
 #' render("input.Rmd")
 #' }
-tiddler_document <- function(host = NULL, path = NULL, tags = NULL,
+tiddler_document <- function(host = NULL,
+                             path = NULL,
+                             tags = NULL,
+                             fields = NULL,
                              use_bookdown = FALSE, ...) {
-
     # Get md document
     if (use_bookdown) {
         output <- bookdown::markdown_document2(...)
@@ -112,7 +115,8 @@ tiddler_document <- function(host = NULL, path = NULL, tags = NULL,
         body <- .tiddler_json(title = title,
                               text = text,
                               type = "text/x-markdown",
-                              tags = tags)
+                              tags = tags,
+                              fields = fields)
 
         output_file <- file.path(dirname(output_file),
                                  paste0(tools::file_path_sans_ext(basename(output_file)), ".json"))
@@ -123,7 +127,8 @@ tiddler_document <- function(host = NULL, path = NULL, tags = NULL,
             put_tiddler(title = title,
                         text = text,
                         type = "text/x-markdown",
-                        tags = tags)
+                        tags = tags,
+                        fields = fields)
         }
         output_file
     }

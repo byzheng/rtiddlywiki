@@ -54,6 +54,7 @@ get_tiddler <- function(title) {
 #' @param text tiddler text
 #' @param type tiddler type
 #' @param tags tiddler tags
+#' @param fields a named vector for tiddler fields
 #' @return null if success
 #' @export
 #' @examples
@@ -63,7 +64,12 @@ get_tiddler <- function(title) {
 #'           "This is a new tiddler")
 #' type <- "text/vnd.tiddlywiki"
 #' tags <- c("Tag1", "Tag 2")
-#' put_tiddler(title = title, text = text, type = type, tags = tags)
+#' fields <- c("F1" = "V1", "F2" = "V2")
+#' put_tiddler(title = title,
+#'             text = text,
+#'             type = type,
+#'             tags = tags,
+#'             fields = fields)
 #' }
 put_tiddler <- function(title, text,
                         type = c("text/vnd.tiddlywiki",
@@ -71,7 +77,8 @@ put_tiddler <- function(title, text,
                                  "text/x-markdown",
                                  "text/html",
                                  "text/plain"),
-                        tags = NULL) {
+                        tags = NULL,
+                        fields = NULL) {
     body <- .tiddler_json(title = title, text = text, type = type, tags = tags)
     response <- request(httr::PUT,
                         path = paste0('/recipes/default/tiddlers/',
