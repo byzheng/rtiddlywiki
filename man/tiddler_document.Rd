@@ -10,6 +10,7 @@ tiddler_document(
   tags = NULL,
   fields = NULL,
   use_bookdown = FALSE,
+  overwrite = FALSE,
   ...
 )
 }
@@ -23,6 +24,8 @@ tiddler_document(
 \item{fields}{a named vector for tiddler fields}
 
 \item{use_bookdown}{logical. Use bookdown to generate markdown file.}
+
+\item{overwrite}{whether to overwrite the existing tiddler.}
 
 \item{...}{Other argument pass to md_document}
 }

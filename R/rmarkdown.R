@@ -47,6 +47,7 @@
 #' @param tags tiddler tags
 #' @param fields a named vector for tiddler fields
 #' @param use_bookdown logical. Use bookdown to generate markdown file.
+#' @param overwrite whether to overwrite the existing tiddler.
 #' @param ... Other argument pass to md_document
 #' @return R Markdown output format to pass to render()
 #' @export
@@ -60,7 +61,9 @@ tiddler_document <- function(host = NULL,
                              path = NULL,
                              tags = NULL,
                              fields = NULL,
-                             use_bookdown = FALSE, ...) {
+                             use_bookdown = FALSE,
+                             overwrite = FALSE,
+                             ...) {
     # Get md document
     if (use_bookdown) {
         output <- bookdown::markdown_document2(...)
@@ -124,6 +127,12 @@ tiddler_document <- function(host = NULL,
         # Push into server if host is specified
         if (!is.null(host)) {
             tw_options(host = host)
+            res <- get_tiddler(title = title)
+            if (length(res) > 0 && !overwrite) {
+                stop("Existed tiddler with title: ", title)
+            } else if (length(res) > 0 && overwrite) {
+                warning("Existed tiddler with title: ", title)
+            }
             put_tiddler(title = title,
                         text = text,
                         type = "text/x-markdown",

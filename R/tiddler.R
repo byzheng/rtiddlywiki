@@ -41,10 +41,9 @@ get_tiddlers <- function(filter = NULL,
 get_tiddler <- function(title) {
     response <- request(httr::GET, paste0('/recipes/default/tiddlers/',
                                           title))
-    httr::stop_for_status(response)
+    #httr::stop_for_status(response)
     response <- httr::content(response)
     response
-
 }
 
 
