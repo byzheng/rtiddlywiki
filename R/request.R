@@ -9,7 +9,6 @@
 #' @param ... Other arguments of request
 #'
 #' @return The contents of response
-#' @export
 request <- function(method,
                            path = '/',
                            query = list(),

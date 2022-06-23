@@ -6,6 +6,12 @@
 \usage{
 tw_reset()
 }
+\value{
+the default options
+}
 \description{
 Reset global options for pkg
+}
+\examples{
+tw_options()
 }

@@ -90,17 +90,3 @@ put_tiddler <- function(title, text,
     response
 
 }
-
-
-#' Get a rendered tiddler
-#'
-#' @param title  title of the tiddler to retrieve
-#' @return tiddler rendering in html
-#' @export
-get_rendered_tiddler <- function(title) {
-    #response <- request(httr::GET, utils::URLencode(title))
-    #httr::stop_for_status(response)
-    #response <- httr::content(response)
-    #response
-}
-

@@ -21,7 +21,10 @@ TW_OPTIONS <- settings::options_manager(
 #'  \item{\code{host}}{\code{character} host of tiddlywiki}
 #' }
 #'
+#' @return the default and modified options.
 #' @export
+#' @examples
+#' tw_options(host = "http://127.0.0.1:8080/")
 tw_options <- function(...){
     # protect against the use of reserved words.
     settings::stop_if_reserved(...)
@@ -30,7 +33,10 @@ tw_options <- function(...){
 
 #' Reset global options for pkg
 #'
+#' @return the default options
 #' @export
+#' @examples
+#' tw_options()
 tw_reset <- function() {
     settings::reset(TW_OPTIONS)
 }

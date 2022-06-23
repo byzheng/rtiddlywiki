@@ -9,6 +9,9 @@ tw_options(...)
 \arguments{
 \item{...}{Option names to retrieve option values or \code{[key]=[value]} pairs to set options.}
 }
+\value{
+the default and modified options.
+}
 \description{
 Set or get options for my package
 }
@@ -20,3 +23,6 @@ The following options are supported
 }
 }
 
+\examples{
+tw_options(host = "http://127.0.0.1:8080/")
+}

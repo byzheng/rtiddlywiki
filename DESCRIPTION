@@ -1,10 +1,10 @@
 Package: rtiddlywiki
 Type: Package
-Title: R Interface for TiddlyWiki
+Title: R Interface for 'TiddlyWiki'
 Version: 0.1.0
 Author: Bangyou Zheng
 Maintainer: Bangyou Zheng <Bangyou.Zheng@csiro.au>
-Description: R interface of TiddlyWiki is used to create new tiddler from Rmarkdown file which is only supported for TiddlyWiki Web Server.
+Description: 'TiddlyWiki' is a unique non-linear notebook for capturing, organising and sharing complex information. `rtiddlywiki` is a R interface of 'TiddlyWiki' <https://tiddlywiki.com> to create new tiddler from Rmarkdown file, and then put into a local `TiddlyWiki` node.js server if it is available.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
