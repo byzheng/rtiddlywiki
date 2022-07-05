@@ -16,7 +16,7 @@ tiddler information in JSON format
 Get a tiddler
 }
 \examples{
-if (FALSE) {
+\dontrun{
 get_tiddler("GettingStarted")
 }
 }

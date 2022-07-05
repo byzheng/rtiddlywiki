@@ -36,7 +36,7 @@ R Markdown output format to pass to render()
 Format for converting from R Markdown to another tiddler markdown
 }
 \examples{
-if (FALSE) {
+\dontrun{
 library(rmarkdown)
 render("input.Rmd")
 }

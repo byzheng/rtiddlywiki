@@ -31,7 +31,7 @@ null if success
 Put a tiddler
 }
 \examples{
-if (FALSE) {
+\dontrun{
 title <- "New tiddler"
 text <- c("!! Section",
           "This is a new tiddler")

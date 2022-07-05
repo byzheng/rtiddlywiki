@@ -53,7 +53,7 @@
 #' @export
 #'
 #' @examples
-#' if (FALSE) {
+#' \dontrun{
 #' library(rmarkdown)
 #' render("input.Rmd")
 #' }

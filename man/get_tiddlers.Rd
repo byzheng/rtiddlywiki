@@ -18,7 +18,7 @@ all tiddlers information in JSON format
 Get all tiddlers
 }
 \examples{
-if (FALSE) {
+\dontrun{
 #' Get all tiddlers
 get_tiddlers()
 }

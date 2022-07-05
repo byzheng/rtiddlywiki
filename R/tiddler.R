@@ -5,7 +5,7 @@
 #' @return all tiddlers information in JSON format
 #' @export
 #' @examples
-#' if (FALSE) {
+#' \dontrun{
 #' #' Get all tiddlers
 #' get_tiddlers()
 #' }
@@ -35,7 +35,7 @@ get_tiddlers <- function(filter = NULL,
 #' @return tiddler information in JSON format
 #' @export
 #' @examples
-#' if (FALSE) {
+#' \dontrun{
 #' get_tiddler("GettingStarted")
 #' }
 get_tiddler <- function(title) {
@@ -57,7 +57,7 @@ get_tiddler <- function(title) {
 #' @return null if success
 #' @export
 #' @examples
-#' if (FALSE) {
+#' \dontrun{
 #' title <- "New tiddler"
 #' text <- c("!! Section",
 #'           "This is a new tiddler")
