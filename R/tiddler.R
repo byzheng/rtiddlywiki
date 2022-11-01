@@ -78,7 +78,7 @@ put_tiddler <- function(title, text,
                                  "text/plain"),
                         tags = NULL,
                         fields = NULL) {
-    body <- .tiddler_json(title = title, text = text, type = type, tags = tags)
+    body <- tiddler_json(title = title, text = text, type = type, tags = tags)
     response <- request(httr::PUT,
                         path = paste0('/recipes/default/tiddlers/',
                                           title),

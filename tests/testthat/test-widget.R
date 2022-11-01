@@ -6,7 +6,7 @@ test_that("widget", {
                      "Seattle, WA 98138"
     )
 
-    widget <- leaflet() %>% addTiles() %>%
+    widget <- leaflet(options = leafletOptions(scrollWheelZoom = FALSE)) %>% addTiles() %>%
         addPopups(-122.327298, 47.597131, content,
                       options = popupOptions(closeButton = FALSE)
         )

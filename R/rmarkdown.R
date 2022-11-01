@@ -115,7 +115,7 @@ tiddler_document <- function(host = NULL,
             }
         }
         text <- .pretty_link(text)
-        body <- .tiddler_json(title = title,
+        body <- tiddler_json(title = title,
                               text = text,
                               type = "text/x-markdown",
                               tags = tags,

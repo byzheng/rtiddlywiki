@@ -1,16 +1,16 @@
 test_that(".tiddler_json", {
-    expect_error(.tiddler_json(title = c("A", "B"), text = "A"))
-    expect_error(.tiddler_json(title = c("A"), text = "A", type = "A"))
+    expect_error(tiddler_json(title = c("A", "B"), text = "A"))
+    expect_error(tiddler_json(title = c("A"), text = "A", type = "A"))
 
-    expect_error(.tiddler_json(title = c("A"), text = "A",
+    expect_error(tiddler_json(title = c("A"), text = "A",
                                type = "text/vnd.tiddlywiki",
                                fields = c("A")))
 
-    expect_error(.tiddler_json(title = c("A"), text = "A",
+    expect_error(tiddler_json(title = c("A"), text = "A",
                                type = "text/vnd.tiddlywiki",
                                fields = c("N1" = "A", "B")))
 
-    tj <- .tiddler_json(title = c("A"), text = c("t1", "t2"),
+    tj <- tiddler_json(title = c("A"), text = c("t1", "t2"),
                   type = "text/vnd.tiddlywiki",
                   tags = c("T1", "T2"),
                   fields = c("N1" = "A", "N2" = "B"))

@@ -8,7 +8,8 @@
 #' @param fields a named vector for tiddler fields.
 #'
 #' @return New tiddler in json format
-.tiddler_json <- function(title, text,
+#' @export
+tiddler_json <- function(title, text,
                           type = c("text/vnd.tiddlywiki",
                                    "text/x-tiddlywiki",
                                    "text/x-markdown",
