@@ -59,6 +59,10 @@ tw_widget <- function(widget, is_cat = FALSE) {
     new_widget <- sprintf('<$htmlwidgets type="%s" uuid="%s" data="""%s"""/>',
                          w_type, h_id, json)
     file.remove(temp_file)
+
+    # A temp solution to replace double quotation into single quotation
+    new_widget <- gsub("\\\\\"", "'", new_widget)
+
     if (is_cat) {
         cat(new_widget)
     }
