@@ -1,0 +1,39 @@
+---
+title: "Example of Rmarkdown in Tiddlywiki"
+always_allow_html: true
+output: 
+  rtiddlywiki::tiddler_document:
+    use_bookdown: true
+    number_sections: false
+    tags: ["Rmarkdown"]
+    overwrite: true
+  html_document: default
+vignette: >
+  %\VignetteIndexEntry{rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Leaflet package
+
+(Leaflet)[https://leafletjs.com/] is one of the most popular open-source JavaScript libraries for interactive maps. R (leaflet)[https://rstudio.github.io/leaflet/] package makes it easy to integrate and control Leaflet maps in R.
+
+```{r leaflet-map, results='asis'}
+library(rtiddlywiki)
+
+library(leaflet)
+m <- leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=174.768, lat=-36.852, popup="The birthplace of R")
+w <- m %>% 
+    tw_widget(is_cat = FALSE)
+w
+```
+
