@@ -21,19 +21,52 @@ knitr::opts_chunk$set(
 )
 ```
 
+Here we show to create a tiddler with interactive figures from Rmarkdown. The source of Rmarkdown can be found from [github](https://github.com/byzheng/rtiddlywiki/blob/main/examples/rmarkdown-example.Rmd).
+
+```{r load-package}
+# Load the required package
+library(rtiddlywiki)
+```
+
+
 # Leaflet package
 
-(Leaflet)[https://leafletjs.com/] is one of the most popular open-source JavaScript libraries for interactive maps. R (leaflet)[https://rstudio.github.io/leaflet/] package makes it easy to integrate and control Leaflet maps in R.
+[Leaflet](https://leafletjs.com/) is one of the most popular open-source JavaScript libraries for interactive maps. R [leaflet](https://rstudio.github.io/leaflet/) package makes it easy to integrate and control Leaflet maps in R. All examples below come from [leaflet website](https://rstudio.github.io/leaflet/).
 
 ```{r leaflet-map, results='asis'}
-library(rtiddlywiki)
+
 
 library(leaflet)
 m <- leaflet() %>%
   addTiles() %>%  # Add default OpenStreetMap map tiles
   addMarkers(lng=174.768, lat=-36.852, popup="The birthplace of R")
-w <- m %>% 
-    tw_widget(is_cat = FALSE)
-w
+m %>% 
+    tw_widget()
+```
+
+## Markers
+
+```{r leaflet-markers}
+data(quakes)
+
+# Show first 20 rows from the `quakes` dataset
+leaflet(data = quakes[1:20,]) %>% addTiles() %>%
+  addMarkers(~long, ~lat, popup = ~as.character(mag), label = ~as.character(mag)) %>% 
+    tw_widget()
+```
+
+```{r leaflet-curcle-markers}
+df <- sp::SpatialPointsDataFrame(
+  cbind(
+    (runif(20) - .5) * 10 - 90.620130,  # lng
+    (runif(20) - .5) * 3.8 + 25.638077  # lat
+  ),
+  data.frame(type = factor(
+    ifelse(runif(20) > 0.75, "pirate", "ship"),
+    c("ship", "pirate")
+  ))
+)
+leaflet(df) %>% addTiles() %>% addCircleMarkers() %>% tw_widget()
+
 ```
 
