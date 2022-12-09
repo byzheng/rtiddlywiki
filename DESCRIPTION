@@ -20,11 +20,11 @@ Imports:
    bookdown,
    stringr,
    htmlwidgets,
-   rvest
+   rvest,
+   knitr
 RoxygenNote: 7.2.3
 Suggests: 
     covr,
-    knitr,
     leaflet,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr

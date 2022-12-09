@@ -7,5 +7,5 @@
 ^pkgdown$
 cran-comments.md
 ^CRAN-SUBMISSION$
-*.json
-*.md
+.*\\.json
+.*\\.md
