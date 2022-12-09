@@ -4,10 +4,12 @@
 \alias{tw_widget}
 \title{Create a tiddlywiki widget from htmlwidget}
 \usage{
-tw_widget(widget)
+tw_widget(widget, is_cat = FALSE)
 }
 \arguments{
 \item{widget}{an object of htmlwidget}
+
+\item{is_cat}{whether to show results on screen}
 }
 \value{
 a new tiddlywiki widget

@@ -8,3 +8,5 @@ docs
 cran-comments.md
 inst/doc
 CRAN-SUBMISSION
+*.json
+*.md

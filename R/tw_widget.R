@@ -21,7 +21,16 @@
 #'     )
 #' tw_widget(widget)
 
-tw_widget <- function(widget, is_cat = TRUE) {
+tw_widget <- function(widget, is_cat = FALSE) {
+
+    # If rending a markdown file
+    # Return the original widget if it is not tiddler_document
+    if (!is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
+        fmt <- rmarkdown::default_output_format(knitr::current_input())
+        if (fmt$name != "rtiddlywiki::tiddler_document") {
+            return(widget)
+        }
+    }
 
     w_class <- class(widget)
     if (!("htmlwidget" %in% w_class)) {
@@ -53,5 +62,23 @@ tw_widget <- function(widget, is_cat = TRUE) {
     if (is_cat) {
         cat(new_widget)
     }
+    # whether rending a markdown file
+    if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
+        # directly return if not
+        return(new_widget)
+    } else {
+        # If yes: check the format
+    }
+    # Export raw html if rending rmarkdown
+    if (!is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
+        fmt <- rmarkdown::default_output_format(knitr::current_input())
+
+        if (fmt$name == "rtiddlywiki::tiddler_document") {
+            print(fmt$name)
+            new_widget <- knitr::raw_html(new_widget)
+            return(new_widget)
+        }
+    }
+
     new_widget
 }
