@@ -6,17 +6,20 @@
 #' @param type tiddler type
 #' @param tags a vector for tiddler tags
 #' @param fields a named vector for tiddler fields.
+#' @param format export format as json or list
 #'
 #' @return New tiddler in json format
 #' @export
 tiddler_json <- function(title, text,
-                          type = c("text/vnd.tiddlywiki",
-                                   "text/x-tiddlywiki",
-                                   "text/x-markdown",
-                                   "text/html",
-                                   "text/plain"),
-                          tags = NULL, fields = NULL) {
-    match.arg(type)
+                         type = c("text/vnd.tiddlywiki",
+                                  "text/x-tiddlywiki",
+                                  "text/x-markdown",
+                                  "text/html",
+                                  "text/plain"),
+                         tags = NULL, fields = NULL,
+                         format = c("json", "list")) {
+    type <- match.arg(type, several.ok = FALSE)
+    format <- match.arg(format, several.ok = FALSE)
     if (!is.null(tags)) {
         if (!is.vector(tags)) {
             stop("tags should be a vector.")
@@ -53,6 +56,10 @@ tiddler_json <- function(title, text,
         for (i in seq(along = fields)) {
             body[[f_names[i]]] <- jsonlite::unbox(as.character(fields[i]))
         }
+    }
+
+    if (format == "list") {
+        return(body)
     }
 
     jsonlite::toJSON(body, auto_unbox = FALSE,

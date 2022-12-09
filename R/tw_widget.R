@@ -2,6 +2,7 @@
 #' Create a tiddlywiki widget from htmlwidget
 #'
 #' @param widget an object of htmlwidget
+#' @param is_cat whether to show results on screen
 #'
 #' @return a new tiddlywiki widget
 #' @export
@@ -20,7 +21,7 @@
 #'     )
 #' tw_widget(widget)
 
-tw_widget <- function(widget) {
+tw_widget <- function(widget, is_cat = TRUE) {
 
     w_class <- class(widget)
     if (!("htmlwidget" %in% w_class)) {
@@ -49,6 +50,8 @@ tw_widget <- function(widget) {
     new_widget <- sprintf('<$htmlwidgets type="%s" uuid="%s" data="""%s"""/>',
                          w_type, h_id, json)
     file.remove(temp_file)
-    cat(new_widget)
+    if (is_cat) {
+        cat(new_widget)
+    }
     new_widget
 }

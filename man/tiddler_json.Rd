@@ -10,7 +10,8 @@ tiddler_json(
   type = c("text/vnd.tiddlywiki", "text/x-tiddlywiki", "text/x-markdown", "text/html",
     "text/plain"),
   tags = NULL,
-  fields = NULL
+  fields = NULL,
+  format = c("json", "list")
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ tiddler_json(
 \item{tags}{a vector for tiddler tags}
 
 \item{fields}{a named vector for tiddler fields.}
+
+\item{format}{export format as json or list}
 }
 \value{
 New tiddler in json format
