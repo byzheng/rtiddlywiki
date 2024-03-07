@@ -21,6 +21,6 @@ test_that(".tiddler_json", {
     expect_equal(tj2$title, "A")
     expect_equal(grepl("t1", tj2$text), TRUE)
     expect_equal(tj2$tags, "[[T1]] [[T2]]")
-    expect_equal(tj2$N1, "A")
-    expect_equal(tj2$N2, "B")
+    expect_equal(tj2$fields$N1, "A")
+    expect_equal(tj2$fields$N2, "B")
 })

@@ -43,6 +43,11 @@ get_tiddler <- function(title) {
                                           title))
     #httr::stop_for_status(response)
     response <- httr::content(response)
+    if (length(response) == 0) {
+        return(NULL)
+    }
+    # tags
+    response$tags <- split_field(response$tags)
     response
 }
 
@@ -52,8 +57,8 @@ get_tiddler <- function(title) {
 #' @param title tiddler title
 #' @param text tiddler text
 #' @param type tiddler type
-#' @param tags tiddler tags
-#' @param fields a named vector for tiddler fields
+#' @param tags tiddler tags which is merged with existing tags
+#' @param fields a named vector for tiddler fields which is merged with existing tags
 #' @return null if success
 #' @export
 #' @examples
@@ -78,6 +83,13 @@ put_tiddler <- function(title, text,
                                  "text/plain"),
                         tags = NULL,
                         fields = NULL) {
+
+    # Check existing tiddler
+    old_tiddler <- get_tiddler(title)
+    if (!is.null(old_tiddler)) {
+        tags <- unique(c(tags, old_tiddler$tags))
+        fields <- utils::modifyList(old_tiddler$fields, as.list(fields))
+    }
     body <- tiddler_json(title = title, text = text, type = type, tags = tags,
                          fields = fields)
     response <- request(httr::PUT,
@@ -88,6 +100,24 @@ put_tiddler <- function(title, text,
                         encode = 'json')
     httr::stop_for_status(response)
     response <- httr::content(response)
-    response
+}
 
+
+
+#' Delete a tiddler
+#'
+#' @param title  title of the tiddler to retrieve
+#' @return no return values
+#' @export
+#' @examples
+#' \dontrun{
+#' delete_tiddler("GettingStarted")
+#' }
+delete_tiddler <- function(title) {
+    response <- request(httr::DELETE,
+                        path = paste0('/bags/default/tiddlers/', title),
+                        config = httr::add_headers(`x-requested-with` = "TiddlyWiki"))
+    httr::stop_for_status(response)
+    response <- httr::content(response)
+    return(invisible())
 }

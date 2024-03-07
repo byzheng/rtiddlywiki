@@ -54,7 +54,7 @@ tiddler_json <- function(title, text,
             stop("fields should be a named vector")
         }
         for (i in seq(along = fields)) {
-            body[[f_names[i]]] <- jsonlite::unbox(as.character(fields[i]))
+            body$fields[[f_names[i]]] <- jsonlite::unbox(as.character(fields[i]))
         }
     }
 
@@ -64,4 +64,25 @@ tiddler_json <- function(title, text,
 
     jsonlite::toJSON(body, auto_unbox = FALSE,
                      null = 'null', pretty = TRUE)
+}
+
+
+split_field <- function(v) {
+    stopifnot(length(v) == 1)
+    if (is.null(v)) {
+        return(NULL)
+    }
+    v1 <- stringi::stri_extract_all(v,
+                                       regex = c("\\[\\[[a-zA-Z0-9 ]+\\]\\]"))[[1]]
+    if (length(v1) == 1 && is.na(v1)) {
+        v1 <- NULL
+    }
+    v1 <- gsub("(\\[|\\])", "", v1)
+    v2 <- strsplit(gsub("\\[\\[[a-zA-Z0-9 ]+\\]\\]", "", v), " +")[[1]]
+    if (length(v2) == 1 && is.na(v2)) {
+        v2 <- NULL
+    }
+    values <- unique(c(v1, v2))
+    pos <- nchar(values) > 0
+    values[pos]
 }

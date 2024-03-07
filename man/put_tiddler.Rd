@@ -20,9 +20,9 @@ put_tiddler(
 
 \item{type}{tiddler type}
 
-\item{tags}{tiddler tags}
+\item{tags}{tiddler tags which is merged with existing tags}
 
-\item{fields}{a named vector for tiddler fields}
+\item{fields}{a named vector for tiddler fields which is merged with existing tags}
 }
 \value{
 null if success

@@ -126,8 +126,8 @@ test_that("rmarkdown", {
                         "      \"field 2\": \"Value 2\"",
                         "---", "",
                         "{{This is a test}}"))
-    expect_equal(rmd$field1, "V1")
-    expect_equal(rmd$`field 2`, "Value 2")
+    expect_equal(rmd$fields$field1, "V1")
+    expect_equal(rmd$fields$`field 2`, "Value 2")
 
     rmd <- render_rmd(c("---", "title: \"test\"",
                         "output: ",
@@ -140,3 +140,4 @@ test_that("rmarkdown", {
                         "{{This is a test}}"))
 
 })
+
