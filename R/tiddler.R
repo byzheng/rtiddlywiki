@@ -83,10 +83,16 @@ put_tiddler <- function(title, text,
                                  "text/plain"),
                         tags = NULL,
                         fields = NULL) {
-
+    match.arg(type)
     # Check existing tiddler
     old_tiddler <- get_tiddler(title)
     if (!is.null(old_tiddler)) {
+        if (missing(text)) {
+            text <- old_tiddler$text
+        }
+        if (missing(type)) {
+            type <- old_tiddler$type
+        }
         tags <- unique(c(tags, old_tiddler$tags))
         fields <- utils::modifyList(old_tiddler$fields, as.list(fields))
     }

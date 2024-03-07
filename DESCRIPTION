@@ -19,6 +19,7 @@ Imports:
    jsonlite,
    bookdown,
    stringr,
+   stringi,
    htmlwidgets,
    rvest,
    knitr

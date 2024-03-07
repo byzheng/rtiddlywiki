@@ -67,22 +67,44 @@ tiddler_json <- function(title, text,
 }
 
 
-split_field <- function(v) {
-    stopifnot(length(v) == 1)
-    if (is.null(v)) {
+split_field <- function(s) {
+    stopifnot(!is.null(s))
+    stopifnot(length(s) == 1)
+    if (nchar(s) == 0) {
         return(NULL)
     }
-    v1 <- stringi::stri_extract_all(v,
-                                       regex = c("\\[\\[[a-zA-Z0-9 ]+\\]\\]"))[[1]]
-    if (length(v1) == 1 && is.na(v1)) {
-        v1 <- NULL
+
+    s <- stringi::stri_trim_both(s)
+    v <- c()
+    s_i <- s
+    while(TRUE) {
+        pos_s <- 1
+        spliter <- " "
+        if (grepl("^\\[\\[", s_i)) {
+            spliter <- "\\]\\]( |$)"
+            pos_s <- 3
+        }
+        pos_n <- stringi::stri_locate_first_regex(s_i, spliter)
+
+        pos_n <- as.numeric(pos_n)
+        if (sum(is.na(pos_n)) > 0) {
+            pos_n <- nchar(s_i)
+        } else {
+            pos_n <- pos_n[1] - 1
+        }
+        #print(pos_n)
+        v_i <- substr(s_i, pos_s, pos_n)
+#        print(v_i)
+        v <- c(v, v_i)
+        pos_s <- pos_n + pos_s + 1
+        if (pos_s > nchar(s_i)) {
+            break
+        }
+        s_i <- substr(s_i, pos_s, nchar(s_i))
+        #print(s_i)
+        if (nchar(s_i) == 0) {
+            break
+        }
     }
-    v1 <- gsub("(\\[|\\])", "", v1)
-    v2 <- strsplit(gsub("\\[\\[[a-zA-Z0-9 ]+\\]\\]", "", v), " +")[[1]]
-    if (length(v2) == 1 && is.na(v2)) {
-        v2 <- NULL
-    }
-    values <- unique(c(v1, v2))
-    pos <- nchar(values) > 0
-    values[pos]
+    v
 }
