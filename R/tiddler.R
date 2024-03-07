@@ -88,7 +88,11 @@ put_tiddler <- function(title, text,
     old_tiddler <- get_tiddler(title)
     if (!is.null(old_tiddler)) {
         if (missing(text)) {
-            text <- old_tiddler$text
+            if (is.null(old_tiddler$text)) {
+                text <- ""
+            } else {
+                text <- old_tiddler$text
+            }
         }
         if (missing(type)) {
             type <- old_tiddler$type
