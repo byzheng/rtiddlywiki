@@ -67,6 +67,12 @@ tiddler_json <- function(title, text,
 }
 
 
+#' Split tiddlywiki field into values
+#'
+#' @param s a string
+#'
+#' @return an vector of values
+#' @export
 split_field <- function(s) {
     stopifnot(!is.null(s))
     stopifnot(length(s) == 1)
