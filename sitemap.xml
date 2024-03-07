@@ -28,6 +28,9 @@
     <loc>https://rtiddlywiki.bangyou.me/news/index.html</loc>
   </url>
   <url>
+    <loc>https://rtiddlywiki.bangyou.me/reference/delete_tiddler.html</loc>
+  </url>
+  <url>
     <loc>https://rtiddlywiki.bangyou.me/reference/get_tiddler.html</loc>
   </url>
   <url>
@@ -43,6 +46,9 @@
     <loc>https://rtiddlywiki.bangyou.me/reference/request.html</loc>
   </url>
   <url>
+    <loc>https://rtiddlywiki.bangyou.me/reference/split_field.html</loc>
+  </url>
+  <url>
     <loc>https://rtiddlywiki.bangyou.me/reference/tiddler_document.html</loc>
   </url>
   <url>
@@ -56,5 +62,8 @@
   </url>
   <url>
     <loc>https://rtiddlywiki.bangyou.me/reference/tw_widget.html</loc>
+  </url>
+  <url>
+    <loc>https://rtiddlywiki.bangyou.me/reference/wikitext_backticks_return.html</loc>
   </url>
 </urlset>
