@@ -30,6 +30,7 @@ tiddler_json <- function(title, text,
         tags <- paste(paste0("[[", tags, "]]"), collapse = " ")
     }
     if (!is.null(fields)) {
+        stopifnot(is.list(fields))
         f_names <- names(fields)
         if (is.null(f_names) | sum(nchar(f_names) == 0) > 0) {
             stop("fields should be a named vector")
@@ -51,10 +52,16 @@ tiddler_json <- function(title, text,
     if (!is.null(fields)) {
         f_names <- names(fields)
         if (is.null(f_names) | sum(nchar(f_names) == 0) > 0) {
-            stop("fields should be a named vector")
+            stop("fields should be a named list")
         }
+        # Treat vector as list
         for (i in seq(along = fields)) {
-            body$fields[[f_names[i]]] <- jsonlite::unbox(as.character(fields[i]))
+            field_i <- fields[[i]]
+            if (length(field_i) > 1) {
+                field_i <- ifelse(!grepl(" ", field_i), field_i, paste0("[[", field_i, "]]"))
+                field_i <- paste(field_i, collapse = " ")
+            }
+            body$fields[[f_names[i]]] <- jsonlite::unbox(as.character(field_i))
         }
     }
 
