@@ -81,7 +81,9 @@ tiddler_json <- function(title, text,
 #' @return an vector of values
 #' @export
 split_field <- function(s) {
-    stopifnot(!is.null(s))
+    if (is.null(s)) {
+        return(NULL)
+    }
     stopifnot(length(s) == 1)
     if (nchar(s) == 0) {
         return(NULL)
