@@ -98,7 +98,9 @@ put_tiddler <- function(title, text,
             type <- old_tiddler$type
         }
         tags <- unique(c(tags, old_tiddler$tags))
-        fields <- utils::modifyList(old_tiddler$fields, as.list(fields))
+        if (!is.null(old_tiddler$fields)) {
+            fields <- utils::modifyList(old_tiddler$fields, as.list(fields))
+        }
     }
     body <- tiddler_json(title = title, text = text, type = type, tags = tags,
                          fields = fields)
