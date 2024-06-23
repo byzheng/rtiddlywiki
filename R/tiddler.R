@@ -107,7 +107,7 @@ put_tiddler <- function(title, text,
     new_tiddler <- utils::modifyList(old_tiddler, new_tiddler)
 
     new_tiddler$modified <- format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y%m%d%H%M%S000")
-    if (is.null(new_tibble$created)) {
+    if (is.null(new_tiddler$created)) {
         new_tiddler$modified <- new_tiddler$modified
     }
     body <- tiddler_json2(new_tiddler)

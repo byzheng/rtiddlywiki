@@ -24,7 +24,7 @@ tiddler_json2 <- function(tiddler) {
         if (length(tiddler$tags) < 1) {
             stop("tags should have at least one value.")
         }
-        tiddler$tags <- paste(paste0("[[", tags, "]]"), collapse = " ")
+        tiddler$tags <- paste(paste0("[[", tiddler$tags, "]]"), collapse = " ")
     }
     if (is.null(tiddler$title) || length(tiddler$title) != 1 || !is.character(tiddler$title)) {
         stop("title should be string with one item.")
@@ -43,7 +43,7 @@ tiddler_json2 <- function(tiddler) {
 
         # Treat vector as list
         for (i in seq(along = tiddler$fields)) {
-            field_i <- fields[[i]]
+            field_i <- tiddler$fields[[i]]
             if (length(field_i) > 1) {
                 field_i <- ifelse(!grepl(" ", field_i), field_i, paste0("[[", field_i, "]]"))
                 field_i <- paste(field_i, collapse = " ")
