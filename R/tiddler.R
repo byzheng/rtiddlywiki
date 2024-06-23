@@ -10,7 +10,7 @@
 #' get_tiddlers()
 #' }
 get_tiddlers <- function(filter = NULL,
-                       exclude = NULL) {
+                         exclude = NULL) {
     query <- list()
     if (!is.null(filter)) {
         query$filter = filter
@@ -102,8 +102,12 @@ put_tiddler <- function(title, text,
             fields <- utils::modifyList(old_tiddler$fields, as.list(fields))
         }
     }
-    body <- tiddler_json(title = title, text = text, type = type, tags = tags,
-                         fields = fields)
+    new_tiddler <- list(title = title, text = text, type = type, tags = tags,
+                        fields = fields)
+    new_tiddler <- utils::modifyList(old_tiddler, new_tiddler)
+
+    new_tiddler$modified <- format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y%m%d%H%M%S000")
+    body <- tiddler_json2(new_tiddler)
     response <- request(httr::PUT,
                         path = paste0('/recipes/default/tiddlers/',
                                           title),

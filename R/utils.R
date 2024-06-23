@@ -10,6 +10,70 @@
 #'
 #' @return New tiddler in json format
 #' @export
+tiddler_json2 <- function(tiddler) {
+    stopifnot(length(tiddler$type) == 1)
+    stopifnot(tiddler$type %in% c("text/vnd.tiddlywiki",
+                            "text/x-tiddlywiki",
+                            "text/x-markdown",
+                            "text/html",
+                            "text/plain"))
+    if (!is.null(tiddler$tags)) {
+        if (!is.vector(tiddler$tags)) {
+            stop("tags should be a vector.")
+        }
+        if (length(tiddler$tags) < 1) {
+            stop("tags should have at least one value.")
+        }
+        tiddler$tags <- paste(paste0("[[", tags, "]]"), collapse = " ")
+    }
+    if (is.null(tiddler$title) || length(tiddler$title) != 1 || !is.character(tiddler$title)) {
+        stop("title should be string with one item.")
+    }
+    if (is.null(tiddler$text)) {
+        stop("text should have values")
+    }
+
+
+    if (!is.null(tiddler$fields)) {
+        stopifnot(is.list(tiddler$fields))
+        f_names <- names(tiddler$fields)
+        if (is.null(f_names) | sum(nchar(f_names) == 0) > 0) {
+            stop("fields should be a named vector")
+        }
+
+        # Treat vector as list
+        for (i in seq(along = tiddler$fields)) {
+            field_i <- fields[[i]]
+            if (length(field_i) > 1) {
+                field_i <- ifelse(!grepl(" ", field_i), field_i, paste0("[[", field_i, "]]"))
+                field_i <- paste(field_i, collapse = " ")
+            }
+            tiddler$fields[[f_names[i]]] <- jsonlite::unbox(as.character(field_i))
+        }
+    }
+    for (i in seq(along = tiddler)) {
+        if (names(tiddler)[i] != "fields") {
+            tiddler[[i]] <- jsonlite::unbox(tiddler[[i]])
+        }
+    }
+
+    jsonlite::toJSON(tiddler, auto_unbox = FALSE,
+                     null = 'null', pretty = TRUE)
+}
+
+
+
+#' Generate tiddler in json format
+#'
+#' @param title tiddler title
+#' @param text tiddler text
+#' @param type tiddler type
+#' @param tags a vector for tiddler tags
+#' @param fields a named vector for tiddler fields.
+#' @param format export format as json or list
+#'
+#' @return New tiddler in json format
+#' @export
 tiddler_json <- function(title, text,
                          type = c("text/vnd.tiddlywiki",
                                   "text/x-tiddlywiki",
