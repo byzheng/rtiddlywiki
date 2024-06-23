@@ -83,7 +83,7 @@ put_tiddler <- function(title, text,
                                  "text/plain"),
                         tags = NULL,
                         fields = NULL) {
-    match.arg(type)
+    type <- match.arg(type)
     # Check existing tiddler
     old_tiddler <- get_tiddler(title)
     if (!is.null(old_tiddler)) {
@@ -101,6 +101,8 @@ put_tiddler <- function(title, text,
         if (!is.null(old_tiddler$fields)) {
             fields <- utils::modifyList(old_tiddler$fields, as.list(fields))
         }
+    } else {
+        old_tiddler <- list(type = type)
     }
     new_tiddler <- list(title = title, text = text, type = type, tags = tags,
                         fields = fields)
@@ -108,7 +110,7 @@ put_tiddler <- function(title, text,
 
     new_tiddler$modified <- format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y%m%d%H%M%S000")
     if (is.null(new_tiddler$created)) {
-        new_tiddler$modified <- new_tiddler$modified
+        new_tiddler$created <- new_tiddler$modified
     }
     body <- tiddler_json2(new_tiddler)
     response <- request(httr::PUT,
