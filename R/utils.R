@@ -1,12 +1,7 @@
 
 #' Generate tiddler in json format
 #'
-#' @param title tiddler title
-#' @param text tiddler text
-#' @param type tiddler type
-#' @param tags a vector for tiddler tags
-#' @param fields a named vector for tiddler fields.
-#' @param format export format as json or list
+#' @param tiddler A list for new tiddler
 #'
 #' @return New tiddler in json format
 #' @export

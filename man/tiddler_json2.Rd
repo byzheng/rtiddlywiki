@@ -7,17 +7,7 @@
 tiddler_json2(tiddler)
 }
 \arguments{
-\item{title}{tiddler title}
-
-\item{text}{tiddler text}
-
-\item{type}{tiddler type}
-
-\item{tags}{a vector for tiddler tags}
-
-\item{fields}{a named vector for tiddler fields.}
-
-\item{format}{export format as json or list}
+\item{tiddler}{A list for new tiddler}
 }
 \value{
 New tiddler in json format

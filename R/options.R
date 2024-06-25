@@ -17,9 +17,7 @@ TW_OPTIONS <- settings::options_manager(
 #'
 #' @section Supported options:
 #' The following options are supported
-#' \itemize{
-#'  \item{\code{host}}{\code{character} host of tiddlywiki}
-#' }
+#'  host: host of tiddlywiki
 #'
 #' @return the default and modified options.
 #' @export
