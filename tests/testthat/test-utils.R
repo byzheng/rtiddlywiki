@@ -1,6 +1,6 @@
 test_that("utils", {
     expect_equal(split_field(""), NULL)
-    expect_error(split_field(NULL))
+    expect_equal(split_field(NULL), NULL)
     expect_equal(split_field(" [[tag 1]] tag2"), c("tag 1", "tag2"))
     expect_equal(split_field(" [[tag 1]] tag2 "), c("tag 1", "tag2"))
     expect_equal(split_field("[[tag 1]] tag2"), c("tag 1", "tag2"))

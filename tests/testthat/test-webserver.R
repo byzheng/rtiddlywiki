@@ -13,7 +13,7 @@ test_that(".tiddler_json", {
     tj <- tiddler_json(title = c("A"), text = c("t1", "t2"),
                   type = "text/vnd.tiddlywiki",
                   tags = c("T1", "T2"),
-                  fields = c("N1" = "A", "N2" = "B"))
+                  fields = list("N1" = "A", "N2" = "B"))
 
     expect_false(grepl('\\[\\"', tj))
 
