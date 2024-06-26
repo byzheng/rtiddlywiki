@@ -51,6 +51,25 @@ get_tiddler <- function(title) {
     response
 }
 
+#' Get rendered tiddler
+#'
+#' @param title  title of the tiddler to retrieve
+#' @return tiddler body as rendered
+#' @export
+#' @examples
+#' \dontrun{
+#' get_rendered_tiddler("GettingStarted")
+#' }
+get_rendered_tiddler <- function(title) {
+    response <- request(httr::GET, paste0('/', title))
+  
+    #httr::stop_for_status(response)
+    response <- httr::content(response)
+    if (length(response) == 0) {
+        return(NULL)
+    }
+    response
+}
 
 #' Put a tiddler
 #'
