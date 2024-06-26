@@ -1,3 +1,9 @@
+
+> [!CAUTION]
+> This package will modify and delete tidders in Tiddlywiki. Use it with caution. 
+> Create a backup and test it before using,
+
+
 # rtiddlywiki
 ![R-CMD-check](https://github.com/byzheng/rtiddlywiki/workflows/R-CMD-check/badge.svg)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rtiddlywiki)](https://cran.r-project.org/package=rtiddlywiki)
