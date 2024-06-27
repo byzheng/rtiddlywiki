@@ -64,7 +64,7 @@ get_rendered_tiddler <- function(title) {
     response <- request(httr::GET, paste0('/', title))
   
     #httr::stop_for_status(response)
-    response <- httr::content(response)
+    response <- httr::content(response, as = "text")
     if (length(response) == 0) {
         return(NULL)
     }
