@@ -4,7 +4,7 @@
 \alias{get_tiddler}
 \title{Get a tiddler}
 \usage{
-get_tiddler(title, recipe = "default")
+get_tiddler(title, recipe = TW_OPTIONS("recipe"))
 }
 \arguments{
 \item{title}{title of the tiddler to retrieve}

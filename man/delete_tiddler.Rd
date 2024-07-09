@@ -4,7 +4,7 @@
 \alias{delete_tiddler}
 \title{Delete a tiddler}
 \usage{
-delete_tiddler(title, bag = "default")
+delete_tiddler(title, bag = TW_OPTIONS("bag"))
 }
 \arguments{
 \item{title}{title of the tiddler to retrieve}

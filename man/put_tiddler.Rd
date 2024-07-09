@@ -11,7 +11,7 @@ put_tiddler(
     "text/plain"),
   tags = NULL,
   fields = NULL,
-  recipe = "default"
+  recipe = TW_OPTIONS("recipe")
 )
 }
 \arguments{

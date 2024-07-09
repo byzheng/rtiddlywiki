@@ -7,7 +7,9 @@
 # Variable, global to package's namespace.
 # This function is not exported to user space and does not need to be documented.
 TW_OPTIONS <- settings::options_manager(
-    host = "http://127.0.0.1:8080/"
+    host = "http://127.0.0.1:8080/",
+    recipe = "default",
+    bag = "default"
 )
 
 

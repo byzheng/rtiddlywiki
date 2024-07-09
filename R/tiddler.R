@@ -12,7 +12,7 @@
 #' }
 get_tiddlers <- function(filter = NULL,
                          exclude = NULL,
-                         recipe = "default") {
+                         recipe = TW_OPTIONS("recipe")) {
     query <- list()
     if (!is.null(filter)) {
         query$filter = filter
@@ -41,7 +41,7 @@ get_tiddlers <- function(filter = NULL,
 #' \dontrun{
 #' get_tiddler("GettingStarted")
 #' }
-get_tiddler <- function(title, recipe = "default") {
+get_tiddler <- function(title, recipe = TW_OPTIONS("recipe")) {
     response <- request(httr::GET, paste0('/recipes/', recipe, '/tiddlers/',
                                           title))
     #httr::stop_for_status(response)
@@ -106,7 +106,7 @@ put_tiddler <- function(title, text,
                                  "text/plain"),
                         tags = NULL,
                         fields = NULL,
-                        recipe = "default") {
+                        recipe = TW_OPTIONS("recipe")) {
     type <- match.arg(type)
     # Check existing tiddler
     old_tiddler <- get_tiddler(title)
@@ -158,7 +158,7 @@ put_tiddler <- function(title, text,
 #' \dontrun{
 #' delete_tiddler("GettingStarted")
 #' }
-delete_tiddler <- function(title, bag = "default") {
+delete_tiddler <- function(title, bag = TW_OPTIONS("bag")) {
     response <- request(httr::DELETE,
                         path = paste0('/bags/', bag, '/tiddlers/', title),
                         config = httr::add_headers(`x-requested-with` = "TiddlyWiki"))

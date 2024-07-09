@@ -4,7 +4,7 @@
 \alias{get_tiddlers}
 \title{Get all tiddlers}
 \usage{
-get_tiddlers(filter = NULL, exclude = NULL, recipe = "default")
+get_tiddlers(filter = NULL, exclude = NULL, recipe = TW_OPTIONS("recipe"))
 }
 \arguments{
 \item{filter}{filter identifying tiddlers to be returned (optional, defaults to "[all[tiddlers]!is[system]sort[title]]")}
