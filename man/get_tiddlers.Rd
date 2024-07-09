@@ -4,12 +4,14 @@
 \alias{get_tiddlers}
 \title{Get all tiddlers}
 \usage{
-get_tiddlers(filter = NULL, exclude = NULL)
+get_tiddlers(filter = NULL, exclude = NULL, recipe = "default")
 }
 \arguments{
 \item{filter}{filter identifying tiddlers to be returned (optional, defaults to "[all[tiddlers]!is[system]sort[title]]")}
 
 \item{exclude}{comma delimited list of fields to excluded from the returned tiddlers (optional, defaults to "text")}
+
+\item{recipe}{string defining which recipe to read from (optional, defaults to "default")}
 }
 \value{
 all tiddlers information in JSON format

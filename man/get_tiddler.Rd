@@ -4,10 +4,12 @@
 \alias{get_tiddler}
 \title{Get a tiddler}
 \usage{
-get_tiddler(title)
+get_tiddler(title, recipe = "default")
 }
 \arguments{
 \item{title}{title of the tiddler to retrieve}
+
+\item{recipe}{string defining which recipe to read from (optional, defaults to "default")}
 }
 \value{
 tiddler information in JSON format
