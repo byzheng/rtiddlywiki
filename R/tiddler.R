@@ -2,6 +2,7 @@
 #'
 #' @param filter filter identifying tiddlers to be returned (optional, defaults to "[all[tiddlers]!is[system]sort[title]]")
 #' @param exclude comma delimited list of fields to excluded from the returned tiddlers (optional, defaults to "text")
+#' @param recipe string defining which recipe to read from (optional, defaults to "default")
 #' @return all tiddlers information in JSON format
 #' @export
 #' @examples
@@ -10,7 +11,8 @@
 #' get_tiddlers()
 #' }
 get_tiddlers <- function(filter = NULL,
-                         exclude = NULL) {
+                         exclude = NULL,
+                         recipe = TW_OPTIONS("recipe")) {
     query <- list()
     if (!is.null(filter)) {
         query$filter = filter
@@ -21,7 +23,7 @@ get_tiddlers <- function(filter = NULL,
     }
 
 
-    response <- request(httr::GET, '/recipes/default/tiddlers.json', query = query)
+    response <- request(httr::GET, '/recipes/', recipe, '/tiddlers.json', query = query)
     httr::stop_for_status(response)
     response <- httr::content(response)
     response
@@ -32,14 +34,15 @@ get_tiddlers <- function(filter = NULL,
 #' Get a tiddler
 #'
 #' @param title  title of the tiddler to retrieve
+#' @param recipe string defining which recipe to read from (optional, defaults to "default")
 #' @return tiddler information in JSON format
 #' @export
 #' @examples
 #' \dontrun{
 #' get_tiddler("GettingStarted")
 #' }
-get_tiddler <- function(title) {
-    response <- request(httr::GET, paste0('/recipes/default/tiddlers/',
+get_tiddler <- function(title, recipe = TW_OPTIONS("recipe")) {
+    response <- request(httr::GET, paste0('/recipes/', recipe, '/tiddlers/',
                                           title))
     #httr::stop_for_status(response)
     response <- httr::content(response)
@@ -51,6 +54,25 @@ get_tiddler <- function(title) {
     response
 }
 
+#' Get rendered tiddler
+#'
+#' @param title  title of the tiddler to retrieve
+#' @return tiddler body as rendered
+#' @export
+#' @examples
+#' \dontrun{
+#' get_rendered_tiddler("GettingStarted")
+#' }
+get_rendered_tiddler <- function(title) {
+    response <- request(httr::GET, paste0('/', title))
+
+    #httr::stop_for_status(response)
+    response <- httr::content(response, as = "text")
+    if (length(response) == 0) {
+        return(NULL)
+    }
+    response
+}
 
 #' Put a tiddler
 #'
@@ -59,6 +81,7 @@ get_tiddler <- function(title) {
 #' @param type tiddler type
 #' @param tags tiddler tags which is merged with existing tags
 #' @param fields a named vector for tiddler fields which is merged with existing tags
+#' @param recipe string defining which recipe to write to (optional, defaults to "default")
 #' @return null if success
 #' @export
 #' @examples
@@ -82,7 +105,8 @@ put_tiddler <- function(title, text,
                                  "text/html",
                                  "text/plain"),
                         tags = NULL,
-                        fields = NULL) {
+                        fields = NULL,
+                        recipe = TW_OPTIONS("recipe")) {
     type <- match.arg(type)
     # Check existing tiddler
     old_tiddler <- get_tiddler(title)
@@ -114,8 +138,7 @@ put_tiddler <- function(title, text,
     }
     body <- tiddler_json2(new_tiddler)
     response <- request(httr::PUT,
-                        path = paste0('/recipes/default/tiddlers/',
-                                          title),
+                        path = paste0('/recipes/', recipe, '/tiddlers/', title),
                         body = body,
                         config = httr::add_headers(`x-requested-with` = "TiddlyWiki"),
                         encode = 'json')
@@ -128,15 +151,16 @@ put_tiddler <- function(title, text,
 #' Delete a tiddler
 #'
 #' @param title  title of the tiddler to retrieve
+#' @param bag string defining which recipe to write to (optional, defaults to "default")
 #' @return no return values
 #' @export
 #' @examples
 #' \dontrun{
 #' delete_tiddler("GettingStarted")
 #' }
-delete_tiddler <- function(title) {
+delete_tiddler <- function(title, bag = TW_OPTIONS("bag")) {
     response <- request(httr::DELETE,
-                        path = paste0('/bags/default/tiddlers/', title),
+                        path = paste0('/bags/', bag, '/tiddlers/', title),
                         config = httr::add_headers(`x-requested-with` = "TiddlyWiki"))
     httr::stop_for_status(response)
     response <- httr::content(response)

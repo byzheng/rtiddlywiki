@@ -4,10 +4,12 @@
 \alias{delete_tiddler}
 \title{Delete a tiddler}
 \usage{
-delete_tiddler(title)
+delete_tiddler(title, bag = TW_OPTIONS("bag"))
 }
 \arguments{
 \item{title}{title of the tiddler to retrieve}
+
+\item{bag}{string defining which recipe to write to (optional, defaults to "default")}
 }
 \value{
 no return values

@@ -10,7 +10,8 @@ put_tiddler(
   type = c("text/vnd.tiddlywiki", "text/x-tiddlywiki", "text/x-markdown", "text/html",
     "text/plain"),
   tags = NULL,
-  fields = NULL
+  fields = NULL,
+  recipe = TW_OPTIONS("recipe")
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ put_tiddler(
 \item{tags}{tiddler tags which is merged with existing tags}
 
 \item{fields}{a named vector for tiddler fields which is merged with existing tags}
+
+\item{recipe}{string defining which recipe to write to (optional, defaults to "default")}
 }
 \value{
 null if success

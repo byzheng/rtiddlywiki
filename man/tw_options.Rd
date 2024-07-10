@@ -18,7 +18,9 @@ Set or get options for my package
 \section{Supported options}{
 
 The following options are supported
- host: host of tiddlywiki
+ host: Host of tiddlywiki
+ recipe: Recipes are named lists of bags, ordered from lowest priority to highest
+ bag: Bags have access controls that determines which users can read or write to them
 }
 
 \examples{

@@ -7,7 +7,9 @@
 # Variable, global to package's namespace.
 # This function is not exported to user space and does not need to be documented.
 TW_OPTIONS <- settings::options_manager(
-    host = "http://127.0.0.1:8080/"
+    host = "http://127.0.0.1:8080/",
+    recipe = "default",
+    bag = "default"
 )
 
 
@@ -17,7 +19,9 @@ TW_OPTIONS <- settings::options_manager(
 #'
 #' @section Supported options:
 #' The following options are supported
-#'  host: host of tiddlywiki
+#'  host: Host of tiddlywiki
+#'  recipe: Recipes are named lists of bags, ordered from lowest priority to highest
+#'  bag: Bags have access controls that determines which users can read or write to them
 #'
 #' @return the default and modified options.
 #' @export
