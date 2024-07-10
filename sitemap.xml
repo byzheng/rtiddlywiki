@@ -1,72 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/404.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/articles/examples.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/articles/rtiddlywki.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/delete_tiddler.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/get_tiddler.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/get_tiddlers.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/put_tiddler.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/request.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/split_field.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/tiddler_document.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/tiddler_json.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/tiddler_json2.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/tw_options.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/tw_reset.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/tw_widget.html</loc>
-  </url>
-  <url>
-    <loc>https://rtiddlywiki.bangyou.me/reference/wikitext_backticks_return.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://rtiddlywiki.bangyou.me/404.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/LICENSE-text.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/articles/examples.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/articles/index.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/articles/rtiddlywki.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/authors.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/index.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/news/index.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/delete_tiddler.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/get_rendered_tiddler.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/get_tiddler.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/get_tiddlers.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/index.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/put_tiddler.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/request.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/split_field.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/tiddler_document.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/tiddler_json.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/tiddler_json2.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/tw_options.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/tw_reset.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/tw_widget.html</loc></url>
+<url><loc>https://rtiddlywiki.bangyou.me/reference/wikitext_backticks_return.html</loc></url>
 </urlset>
+
