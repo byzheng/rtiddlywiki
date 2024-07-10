@@ -30,6 +30,8 @@ test_that("tiddler", {
     expect_equal(new_tiddler$fields$f1, "f1")
     expect_equal(new_tiddler$fields$f2, "f 2 again")
     expect_equal(new_tiddler$fields$f3, "f 3")
+    tiddlers <- get_tiddlers("[all[tiddlers]!is[system]sort[title]]")
+    expect_true(length(tiddlers) > 0)
 })
 
 

@@ -23,7 +23,7 @@ get_tiddlers <- function(filter = NULL,
     }
 
 
-    response <- request(httr::GET, '/recipes/', recipe, '/tiddlers.json', query = query)
+    response <- request(httr::GET, paste0('/recipes/', recipe, '/tiddlers.json'), query = query)
     httr::stop_for_status(response)
     response <- httr::content(response)
     response
