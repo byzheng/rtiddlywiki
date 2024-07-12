@@ -8,7 +8,7 @@ put_tiddler(
   title,
   text,
   type = c("text/vnd.tiddlywiki", "text/x-tiddlywiki", "text/x-markdown", "text/html",
-    "text/plain"),
+    "text/plain", "application/json"),
   tags = NULL,
   fields = NULL,
   recipe = TW_OPTIONS("recipe")

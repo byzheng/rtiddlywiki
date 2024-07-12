@@ -11,7 +11,8 @@ tiddler_json2 <- function(tiddler) {
                             "text/x-tiddlywiki",
                             "text/x-markdown",
                             "text/html",
-                            "text/plain"))
+                            "text/plain",
+                            "application/json"))
     if (!is.null(tiddler$tags)) {
         if (!is.vector(tiddler$tags)) {
             stop("tags should be a vector.")
@@ -74,7 +75,8 @@ tiddler_json <- function(title, text,
                                   "text/x-tiddlywiki",
                                   "text/x-markdown",
                                   "text/html",
-                                  "text/plain"),
+                                  "text/plain",
+                                  "application/json"),
                          tags = NULL, fields = NULL,
                          format = c("json", "list")) {
     type <- match.arg(type, several.ok = FALSE)

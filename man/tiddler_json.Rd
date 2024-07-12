@@ -8,7 +8,7 @@ tiddler_json(
   title,
   text,
   type = c("text/vnd.tiddlywiki", "text/x-tiddlywiki", "text/x-markdown", "text/html",
-    "text/plain"),
+    "text/plain", "application/json"),
   tags = NULL,
   fields = NULL,
   format = c("json", "list")
