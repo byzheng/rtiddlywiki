@@ -10,3 +10,5 @@ cran-comments.md
 ^CRAN-SUBMISSION$
 .*\\.json
 .*\\.md
+^tw-test
+tw-test.bat
