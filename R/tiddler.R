@@ -82,7 +82,7 @@ get_rendered_tiddler <- function(title) {
 #' @param tags tiddler tags which is merged with existing tags
 #' @param fields a named vector for tiddler fields which is merged with existing tags
 #' @param recipe string defining which recipe to write to (optional, defaults to "default")
-#' @return null if success
+#' @return No return value
 #' @export
 #' @examples
 #' \dontrun{
@@ -125,6 +125,7 @@ put_tiddler <- function(title, text,
         tags <- unique(c(tags, old_tiddler$tags))
         if (!is.null(old_tiddler$fields)) {
             fields <- utils::modifyList(old_tiddler$fields, as.list(fields))
+            print(fields)
         }
     } else {
         old_tiddler <- list(type = type)
@@ -132,19 +133,8 @@ put_tiddler <- function(title, text,
     new_tiddler <- list(title = title, text = text, type = type, tags = tags,
                         fields = fields)
     new_tiddler <- utils::modifyList(old_tiddler, new_tiddler)
-
-    new_tiddler$modified <- format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y%m%d%H%M%S000")
-    if (is.null(new_tiddler$created)) {
-        new_tiddler$created <- new_tiddler$modified
-    }
-    body <- tiddler_json2(new_tiddler)
-    response <- request(httr::PUT,
-                        path = paste0('/recipes/', recipe, '/tiddlers/', title),
-                        body = body,
-                        config = httr::add_headers(`x-requested-with` = "TiddlyWiki"),
-                        encode = 'json')
-    httr::stop_for_status(response)
-    response <- httr::content(response)
+    .put_tiddler(new_tiddler, recipe)
+    return(invisible())
 }
 
 
@@ -166,4 +156,51 @@ delete_tiddler <- function(title, bag = TW_OPTIONS("bag")) {
     httr::stop_for_status(response)
     response <- httr::content(response)
     return(invisible())
+}
+
+#' Remove fields from tiddlers
+#'
+#' @param title tiddler title
+#' @param fields fields to remove
+#' @param recipe string defining which recipe to write to (optional, defaults to "default")
+#'
+#' @return no return value
+#' @export
+remove_fields <- function(title, fields, recipe = TW_OPTIONS("recipe")) {
+    stopifnot(length(title) == 1)
+    stopifnot(is.character(title))
+    stopifnot(is.character(fields))
+    stopifnot(length(fields) > 0)
+
+    old_tiddler <- get_tiddler(title)
+    if (is.null(old_tiddler)) {
+        stop("Cannot find tiddler ", title)
+    }
+    i <- 1
+    for (i in seq(along = fields)) {
+        if (is.null(old_tiddler$fields[[fields[i]]])) {
+            stop("Cannot find field ", fields[i])
+        }
+        old_tiddler$fields[[fields[i]]] <- NULL
+    }
+    .put_tiddler(old_tiddler, recipe)
+    return(invisible())
+}
+
+.put_tiddler <- function(new_tiddler, recipe = TW_OPTIONS("recipe")) {
+    new_tiddler$modified <- format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y%m%d%H%M%S000")
+    if (is.null(new_tiddler$created)) {
+        new_tiddler$created <- new_tiddler$modified
+    }
+    if (is.null(new_tiddler$text)) {
+        new_tiddler$text <- ""
+    }
+    body <- tiddler_json2(new_tiddler)
+    response <- request(httr::PUT,
+                        path = paste0('/recipes/', recipe, '/tiddlers/', new_tiddler$title),
+                        body = body,
+                        config = httr::add_headers(`x-requested-with` = "TiddlyWiki"),
+                        encode = 'json')
+    httr::stop_for_status(response)
+    response <- httr::content(response)
 }

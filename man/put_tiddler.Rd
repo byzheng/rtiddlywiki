@@ -28,7 +28,7 @@ put_tiddler(
 \item{recipe}{string defining which recipe to write to (optional, defaults to "default")}
 }
 \value{
-null if success
+No return value
 }
 \description{
 Put a tiddler
