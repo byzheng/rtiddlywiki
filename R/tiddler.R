@@ -122,7 +122,9 @@ put_tiddler <- function(title, text,
         if (missing(type)) {
             type <- old_tiddler$type
         }
-        tags <- unique(c(tags, old_tiddler$tags))
+        if (is.null(tags)) {
+            tags <- unique(c(tags, old_tiddler$tags))
+        }
         if (!is.null(old_tiddler$fields)) {
             fields <- utils::modifyList(old_tiddler$fields, as.list(fields))
         }
@@ -187,10 +189,10 @@ remove_fields <- function(title, fields, recipe = TW_OPTIONS("recipe")) {
 }
 
 .put_tiddler <- function(new_tiddler, recipe = TW_OPTIONS("recipe")) {
-    new_tiddler$modified <- format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y%m%d%H%M%S000")
-    if (is.null(new_tiddler$created)) {
-        new_tiddler$created <- new_tiddler$modified
-    }
+    #new_tiddler$modified <- format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y%m%d%H%M%S000")
+    #if (is.null(new_tiddler$created)) {
+    #    new_tiddler$created <- new_tiddler$modified
+    #}
     if (is.null(new_tiddler$text)) {
         new_tiddler$text <- ""
     }
