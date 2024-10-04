@@ -43,7 +43,6 @@
 #' Format for converting from R Markdown to another tiddler markdown
 #'
 #' @param host the host of tiddlywiki web server
-#' @param path The folder of tiddlywiki. Temp solution as no PUT file api in tiddlywiki WebServer.
 #' @param tags tiddler tags
 #' @param fields a named vector for tiddler fields
 #' @param use_bookdown logical. Use bookdown to generate markdown file.
@@ -58,7 +57,6 @@
 #' render("input.Rmd")
 #' }
 tiddler_document <- function(host = NULL,
-                             path = NULL,
                              tags = NULL,
                              fields = NULL,
                              use_bookdown = FALSE,

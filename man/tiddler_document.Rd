@@ -6,7 +6,6 @@
 \usage{
 tiddler_document(
   host = NULL,
-  path = NULL,
   tags = NULL,
   fields = NULL,
   use_bookdown = FALSE,
@@ -16,8 +15,6 @@ tiddler_document(
 }
 \arguments{
 \item{host}{the host of tiddlywiki web server}
-
-\item{path}{The folder of tiddlywiki. Temp solution as no PUT file api in tiddlywiki WebServer.}
 
 \item{tags}{tiddler tags}
 
