@@ -87,31 +87,25 @@ tiddler_document <- function(host = NULL,
                      "^(<img +src=\")(.+\\.\\w{3})(\".*/>)$")
         i <- 1
         for (i in seq(along = pattern)) {
+            # save(list = ls(), file = "a.Rdata")
+            # stop()
+            # vars <- load("examples/a.Rdata")
             pos_i <- grep(pattern[i], text)
-            if (length(pos_i) > 0) {
-                img_files_raw <- gsub(pattern[i], "\\2", text[pos_i])
+            if (length(pos_i) == 0) {
+                next
+            }
+            j <- 1
+            for (j in seq(pos_i)) {
+                img_files_raw <- gsub(pattern[i], "\\2", text[pos_i[j]])
+                #img_files_raw <- file.path("examples", img_files_raw)
 
                 pos_img <- file.exists(img_files_raw)
                 if (sum(!pos_img) > 0) {
                     stop("Image files do not exist: ",
                          paste(img_files_raw[!pos_img], collapse = ", "))
                 }
-                # Copy files to node.js server. Will update if there are PUT file API.
-                if (!is.null(path)) {
-                    target_files <- file.path(path, "files",
-                                              img_files_raw)
-                    dir_names <- unique(dirname(target_files))
-                    for (j in seq(along = dir_names)) {
-                        if (!dir.exists(dir_names[j])) {
-                            dir.create(dir_names[j], recursive = TRUE)
-                        }
-                    }
-
-                    file.copy(img_files_raw,
-                              target_files,
-                              overwrite = TRUE)
-                }
-                text[pos_i] <- gsub(pattern[i], "\\1./files/\\2\\3", text[pos_i])
+                img_uri <- knitr::image_uri(img_files_raw)
+                text[pos_i[j]] <- gsub(pattern[i], paste0("\\1", img_uri, "\\3"), text[pos_i[j]])
             }
         }
         text <- .pretty_link(text)

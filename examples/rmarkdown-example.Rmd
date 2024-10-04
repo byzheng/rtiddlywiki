@@ -70,3 +70,21 @@ leaflet(df) %>% addTiles() %>% addCircleMarkers() %>% tw_widget()
 
 ```
 
+
+## Static images
+
+```{r static-images-1}
+
+library(ggplot2)
+cars |> 
+    ggplot() +
+    geom_point(aes(speed, dist))
+```
+
+```{r static-images-2}
+
+cars |> 
+    ggplot() +
+    geom_point(aes(speed, dist)) +
+    theme_bw()
+```
