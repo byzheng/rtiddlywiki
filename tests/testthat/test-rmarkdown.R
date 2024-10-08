@@ -75,7 +75,6 @@ test_that("rmarkdown", {
     expect_equal(rmd$tags, "[[tag1]] [[tag 2]]")
     expect_equal(rmd$title, "test")
 
-
     rmd <- render_rmd(c("---", "title: test",
                         "output: ",
                         "  tiddler_document:",
@@ -129,6 +128,8 @@ test_that("rmarkdown", {
     expect_equal(rmd$fields$field1, "V1")
     expect_equal(rmd$fields$`field 2`, "Value 2")
 
+    # Test graph
+
     rmd <- render_rmd(c("---", "title: \"test\"",
                         "output: ",
                         "  tiddler_document:",
@@ -137,7 +138,14 @@ test_that("rmarkdown", {
                         "      \"field1\": \"V1\"",
                         "      \"field 2\": \"Value 2\"",
                         "---", "",
-                        "{{This is a test}}"))
+                        "```{r static-images-1}",
+                        "",
+                        "library(ggplot2)",
+                        "cars |> ",
+                        "    ggplot() +",
+                        "    geom_point(aes(speed, dist))",
+                        "```"))
+    expect_equal(grepl("data:image", rmd$text), TRUE)
 
 })
 
