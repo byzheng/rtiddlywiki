@@ -80,6 +80,7 @@ tiddler_document <- function(host = NULL,
             title <- tools::file_path_sans_ext(basename(output_file))
         }
         text <- readLines(output_file)
+
         # Update image file path
         pattern <- c("^(\\!\\[\\]\\()(.+\\.\\w{3})(\\))$",
                      "^(<img +src=\")(.+\\.\\w{3})(\".*/>)$")
@@ -93,7 +94,7 @@ tiddler_document <- function(host = NULL,
                 next
             }
             j <- 1
-            for (j in seq(pos_i)) {
+            for (j in seq_along(pos_i)) {
                 img_files_raw <- gsub(pattern[i], "\\2", text[pos_i[j]])
                 #img_files_raw <- file.path("examples", img_files_raw)
 
@@ -106,7 +107,11 @@ tiddler_document <- function(host = NULL,
                 text[pos_i[j]] <- gsub(pattern[i], paste0("\\1", img_uri, "\\3"), text[pos_i[j]])
             }
         }
+        # save(list = ls(), file = "a.Rdata")
+        # stop()
+        # vars <- load("examples/a.Rdata")
         text <- .pretty_link(text)
+        text <- paste(text, collapse = "\n")
         body <- tiddler_json(title = title,
                               text = text,
                               type = "text/x-markdown",
