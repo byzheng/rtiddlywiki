@@ -60,8 +60,31 @@ test_that("tiddler", {
     expect_equal(new_tiddler$title, "test4")
     expect_equal(new_tiddler$type, "application/json")
     expect_equal(new_tiddler$fields$f1, "")
+
+
+    expect_no_error(put_tiddler("test4", "",
+                                type = "application/json",
+                                tags = c("TAG 1", "TAG2"),
+                                fields = list("f1" = "", "f2" = c("V1", "V2", "V 4"))))
+    new_tiddler <- get_tiddler("test4")
+    expect_equal(new_tiddler$title, "test4")
+    expect_equal(new_tiddler$type, "application/json")
+    expect_equal(new_tiddler$fields$f1, "")
+    expect_equal(new_tiddler$fields$f2, "V1 V2 [[V 4]]")
+
     expect_no_error(delete_tiddler("test3"))
     expect_no_error(delete_tiddler("test4"))
+
+    expect_error(put_tiddler("test5", "",
+                                type = "application/json",
+                                tags = c("TAG 1", "TAG2"),
+                                fields = list("f1" = "", "f2" = list("V1", "V2", "V 4"))))
+
+    expect_error(put_tiddler("test5", "",
+                             type = "application/json",
+                             tags = c("TAG 1", "TAG2"),
+                             fields = list("f1" = "", "f2" = data.frame(a=c(1,2)))))
+
 
     # title = "test1"
     # text = "This is a test tiddler"

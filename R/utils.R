@@ -40,6 +40,9 @@ tiddler_json2 <- function(tiddler) {
         # Treat vector as list
         for (i in seq(along = tiddler$fields)) {
             field_i <- tiddler$fields[[i]]
+            if (!is.atomic(field_i)) {
+                stop("An atomic is required.")
+            }
             if (length(field_i) > 1) {
                 field_i <- ifelse(!grepl(" ", field_i), field_i, paste0("[[", field_i, "]]"))
                 field_i <- paste(field_i, collapse = " ")

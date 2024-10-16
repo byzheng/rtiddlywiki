@@ -171,7 +171,6 @@ remove_fields <- function(title, fields, recipe = TW_OPTIONS("recipe")) {
         new_tiddler$text <- ""
     }
     body <- tiddler_json2(new_tiddler)
-    body <- new_tiddler
     response <- request("PUT",
                         path = paste0('/recipes/', recipe, '/tiddlers/', new_tiddler$title),
                         body = body)
