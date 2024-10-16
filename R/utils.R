@@ -52,7 +52,7 @@ tiddler_json2 <- function(tiddler) {
             tiddler[[i]] <- jsonlite::unbox(tiddler[[i]])
         }
     }
-
+    return(tiddler)
     jsonlite::toJSON(tiddler, auto_unbox = FALSE,
                      null = 'null', pretty = TRUE)
 }

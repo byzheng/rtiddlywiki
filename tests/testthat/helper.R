@@ -4,8 +4,8 @@
 #' @return TRUE if test server is available.
 is_test_tw <- function() {
     x <- try({
-        status <- request(httr::GET, "status")
-        if (httr::status_code(status) == "200") {
+        status <- request("GET", "status")
+        if (!is.null(status)) {
             return(TRUE)
         }
     })

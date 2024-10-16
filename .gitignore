@@ -11,3 +11,4 @@ CRAN-SUBMISSION
 *.json
 *.md
 $__StoryList.tid
+*.tid

@@ -14,11 +14,11 @@ test_that("tiddler", {
     expect_equal(new_tiddler$fields$f1, "f1")
     expect_equal(new_tiddler$fields$f2, "f 2")
 
-    # title = "test1"
-    # text = "This is a test tiddler"
-    # type = "text/x-tiddlywiki"
-    # tags = c("TAG 1", "TAG2")
-    # fields = c("f2" = "f 2 again")
+    title = "test1"
+    text = "This is a test tiddler"
+    type = "text/x-tiddlywiki"
+    tags = c("TAG 3", "TAG2")
+    fields =  list("f2" = "f 2 again", "f3" = "f 3")
     expect_no_error(put_tiddler(title = "test1",
                                 tags = c("TAG 3", "TAG2"),
                                 fields = list("f2" = "f 2 again", "f3" = "f 3")))

@@ -13,7 +13,7 @@ URL: https://rtiddlywiki.bangyou.me/,
 BugReports: https://github.com/byzheng/rtiddlywiki/issues
 Imports:
    settings,
-   httr,
+   httr2,
    rmarkdown,
    utils,
    jsonlite,
