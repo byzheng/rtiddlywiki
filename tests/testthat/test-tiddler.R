@@ -41,6 +41,28 @@ test_that("tiddler", {
     expect_equal(tiddler$fields$f1, NULL)
     expect_equal(tiddler$fields$f2, "f 2 again")
     expect_equal(tiddler$fields$f3, "f 3")
+
+
+    # Test more field choices
+    expect_no_error(put_tiddler("test3", "",
+                                type = "text/x-tiddlywiki",
+                                tags = c("TAG 1", "TAG2"),
+                                fields = list("f1" = "", "f2" = "f 2")))
+    new_tiddler <- get_tiddler("test3")
+    expect_equal(new_tiddler$title, "test3")
+    expect_equal(new_tiddler$fields$f1, "")
+
+    expect_no_error(put_tiddler("test4", "",
+                                type = "application/json",
+                                tags = c("TAG 1", "TAG2"),
+                                fields = list("f1" = "", "f2" = "f 2")))
+    new_tiddler <- get_tiddler("test4")
+    expect_equal(new_tiddler$title, "test4")
+    expect_equal(new_tiddler$type, "application/json")
+    expect_equal(new_tiddler$fields$f1, "")
+    expect_no_error(delete_tiddler("test3"))
+    expect_no_error(delete_tiddler("test4"))
+
     # title = "test1"
     # text = "This is a test tiddler"
     # type = "text/x-tiddlywiki"
