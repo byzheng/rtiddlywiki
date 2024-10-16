@@ -13,6 +13,7 @@ request <- function(method,
                            path = '/',
                            query = list(),
                            ...) {
+    httr::set_config(httr::config(ssl_verifypeer = 0L))
     # Remove the leading "/" if it has one.
     path <- utils::URLencode(gsub('^/*(.*)$', "\\1", path))
 
