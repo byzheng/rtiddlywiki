@@ -8,6 +8,7 @@
 # This function is not exported to user space and does not need to be documented.
 TW_OPTIONS <- settings::options_manager(
     host = "http://127.0.0.1:8080/",
+    http_x_auth_key = Sys.getenv("TW_HTTP_X_AUTH_KEY"),
     recipe = "default",
     bag = "default"
 )

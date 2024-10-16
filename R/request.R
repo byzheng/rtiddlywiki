@@ -16,14 +16,20 @@ request <- function(method,
     httr::set_config(httr::config(ssl_verifypeer = 0L))
     # Remove the leading "/" if it has one.
     path <- utils::URLencode(gsub('^/*(.*)$', "\\1", path))
-
     host <- TW_OPTIONS("host")
 
 
+    config <- list()
+
+    http_x_auth_key <- TW_OPTIONS("http_x_auth_key")
+
+    if (nchar(http_x_auth_key) > 0) {
+        config <- httr::add_headers("X-Auth-Key" = http_x_auth_key)
+    }
     url <- httr::modify_url(host,
                       path = gsub("/+", "/",
                                   paste(httr::parse_url(host)$path, path, sep = "/")))
-    response <- method(url, query = query, ...)
+    response <- method(url, config = config, query = query, ...)
     response
 }
 
