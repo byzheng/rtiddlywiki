@@ -15,6 +15,7 @@ request <- function(method = "GET",
 
     # Create request
     req <- httr2::request(host) |>
+        httr2::req_options(ssl_verifypeer = 0) |> # self sigined ssl
         httr2::req_url_path_append(path) |>
         httr2::req_method(method)
     if (!is.null(query) && is.list(query)) {
@@ -54,7 +55,9 @@ request <- function(method = "GET",
     }
 
     status_code <- httr2::resp_status(resp)
-
+    if (status_code == 403) {
+        stop("403 Forbidden")
+    }
     c_type <- resp$headers$`Content-Type`
 
 
