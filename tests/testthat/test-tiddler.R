@@ -83,10 +83,15 @@ test_that("tiddler", {
                              tags = c("TAG 1", "TAG2"),
                              fields = list("f1" = "", "f2" = data.frame(a=c(1,2)))))
 
+    expect_error(put_tiddler("tiddler with space", "",
+                             type = "application/json",
+                             tags = c("TAG 1", "TAG2"),
+                             fields = list("f1" = "", "f2" = list("V1", "V2", "V 4"))))
+
     expect_no_error(delete_tiddler("test1"))
     expect_no_error(delete_tiddler("test3"))
     expect_no_error(delete_tiddler("test4"))
-
+    expect_no_error(delete_tiddler("tiddler with space"))
     # title = "test1"
     # text = "This is a test tiddler"
     # type = "text/x-tiddlywiki"
