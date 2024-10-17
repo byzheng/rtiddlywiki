@@ -16,7 +16,7 @@ request <- function(method = "GET",
     # Create request
     req <- httr2::request(host) |>
         httr2::req_options(ssl_verifypeer = 0) |> # self sigined ssl
-        httr2::req_url_path_append(path) |>
+        httr2::req_url_path_append(utils::URLencode(path)) |>
         httr2::req_method(method)
     if (!is.null(query) && is.list(query)) {
         query$.req <- req

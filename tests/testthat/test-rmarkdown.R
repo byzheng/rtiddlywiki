@@ -147,5 +147,30 @@ test_that("rmarkdown", {
                         "```"))
     expect_equal(grepl("data:image", rmd$text), TRUE)
 
+
+    skip_if(!is_test_tw())
+    rmd <- render_rmd(c("---", "title: \"rmarkdown test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        sprintf('    host: "%s"', tw_options("host")),
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "    fields:",
+                        "      \"field1\": \"V1\"",
+                        "      \"field 2\": \"Value 2\"",
+                        "---", "",
+                        "```{r static-images-1}",
+                        "",
+                        "library(ggplot2)",
+                        "cars |> ",
+                        "    ggplot() +",
+                        "    geom_point(aes(speed, dist))",
+                        "```"))
+    tiddler <- get_tiddler("rmarkdown test")
+    expect_equal(tiddler$fields$field1, "V1")
+    expect_equal(tiddler$fields$`field 2`, "Value 2")
+    expect_equal(tiddler$tags, c("tag1", "tag 2"))
+    expect_equal(tiddler$title, "rmarkdown test")
+    expect_equal(tiddler$type, "text/x-markdown")
+    expect_no_error(delete_tiddler("rmarkdown test"))
 })
 
