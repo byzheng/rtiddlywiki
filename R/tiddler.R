@@ -85,6 +85,16 @@ put_tiddler <- function(title, text,
                         tags = NULL,
                         fields = NULL,
                         recipe = TW_OPTIONS("recipe")) {
+    stopifnot(length(title) == 1)
+    stopifnot(is.character(title))
+    stopifnot(length(recipe) == 1)
+    stopifnot(is.character(recipe))
+
+    if (!is.null(tags)) {
+        stopifnot(is.vector(tags))
+        stopifnot(is.character(tags))
+    }
+
     type <- match.arg(type)
     # Check existing tiddler
     old_tiddler <- get_tiddler(title)
@@ -99,9 +109,7 @@ put_tiddler <- function(title, text,
         if (missing(type)) {
             type <- old_tiddler$type
         }
-        if (!is.null(tags)) {
-            tags <- unique(c(tags, old_tiddler$tags))
-        }
+        tags <- unique(c(tags, old_tiddler$tags))
         if (!is.null(old_tiddler$fields)) {
             fields <- utils::modifyList(old_tiddler$fields, as.list(fields))
         }

@@ -33,13 +33,25 @@ test_that("tiddler", {
     tiddlers <- get_tiddlers("[all[tiddlers]!is[system]sort[title]]")
     expect_true(length(tiddlers) > 0)
 
+    expect_no_error(put_tiddler(title = "test1",
+                                fields = list("f2" = "f 2")))
+
+    new_tiddler <- get_tiddler("test1")
+    expect_equal(new_tiddler$title, "test1")
+    expect_equal(new_tiddler$text, "This is a test tiddler")
+    expect_equal(new_tiddler$type, "text/vnd.tiddlywiki")
+    expect_equal(new_tiddler$tags, c("TAG 3", "TAG2", "TAG 1"))
+    expect_equal(new_tiddler$fields$f1, "f1")
+    expect_equal(new_tiddler$fields$f2, "f 2")
+
+
     # Remove an existing field
     remove_fields("test1", "f1")
     expect_error(remove_fields("test1", "f1"))
     expect_error(remove_fields("test13333", "f33"))
     tiddler <- get_tiddler("test1")
     expect_equal(tiddler$fields$f1, NULL)
-    expect_equal(tiddler$fields$f2, "f 2 again")
+    expect_equal(tiddler$fields$f2, "f 2")
     expect_equal(tiddler$fields$f3, "f 3")
 
 
