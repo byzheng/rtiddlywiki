@@ -42,10 +42,10 @@ test_that("rmarkdown", {
         }
     }
 
-
     render_rmd <- function(..., .env = parent.frame()) {
         temp_input_file <- tempfile(fileext = ".Rmd")
-        writeLines(c(...), temp_input_file)
+        text <- c(...)
+        writeLines(text, temp_input_file)
         temp_output_file <- paste0(tools::file_path_sans_ext(temp_input_file), ".json")
         rmarkdown::render(temp_input_file,
                           quiet = TRUE)
@@ -146,6 +146,26 @@ test_that("rmarkdown", {
                         "    geom_point(aes(speed, dist))",
                         "```"))
     expect_equal(grepl("data:image", rmd$text), TRUE)
+
+
+    # Test macro
+
+    rmd <- render_rmd(c("---", "title: \"test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "    fields:",
+                        "      \"field1\": \"V1\"",
+                        "      \"field 2\": \"Value 2\"",
+                        "---", "",
+                        "",
+                        "<<macro>>",
+                        '<<macro p1:"P">>',
+                        "<<macro ",
+                        ">>"
+                        ))
+    expect_equal(grepl("<<macro>>", rmd$text), TRUE)
+
 
 
     skip_if(!is_test_tw())

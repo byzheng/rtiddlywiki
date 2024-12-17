@@ -70,6 +70,8 @@ tiddler_document <- function(host = NULL,
     }
     # Define post processor function
     post_processor <- function(metadata, input_file, output_file, clean, verbose) {
+        # save(list = ls(), file = "tmp.Rdata")
+        # stop("AAAAAAAAAAAA")
         # print(input_file)
         # print(output_file)
         # file.copy(input_file, paste0(input_file, ".bck"))
@@ -80,6 +82,11 @@ tiddler_document <- function(host = NULL,
             title <- tools::file_path_sans_ext(basename(output_file))
         }
         text <- readLines(output_file)
+        # for macro in tiddlywiki
+        text <- gsub("&lt;<", "<<", text)
+        text <- gsub("&lt;&lt;", "<<", text)
+        text <- gsub(">&gt;", ">>", text)
+        text <- gsub("&gt;&gt", ">>", text)
 
         # Update image file path
         pattern <- c("^(\\!\\[\\]\\()(.+\\.\\w{3})(\\))$",
