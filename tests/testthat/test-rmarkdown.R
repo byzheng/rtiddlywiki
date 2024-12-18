@@ -181,7 +181,27 @@ test_that("rmarkdown", {
                         '""">>'
     ))
     expect_equal(grepl('"""', rmd$text), TRUE)
+    expect_equal(grepl("<<alert", rmd$text), TRUE)
 
+    # Test variant: gfm
+    rmd <- render_rmd(c("---", "title: \"test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "    variant: gfm",
+                        "    fields:",
+                        "      \"field1\": \"V1\"",
+                        "      \"field 2\": \"Value 2\"",
+                        "---", "",
+                        "",
+                        '<<alert primary """',
+                        'This is a test',
+                        '""">>'
+    ))
+    expect_equal(grepl('"""', rmd$text), TRUE)
+    expect_equal(grepl("<<alert", rmd$text), TRUE)
+
+    # Test Tddlywiki
     skip_if(!is_test_tw())
     rmd <- render_rmd(c("---", "title: \"rmarkdown test\"",
                         "output: ",
