@@ -61,7 +61,7 @@ tiddler_document <- function(host = NULL,
                              fields = NULL,
                              use_bookdown = FALSE,
                              overwrite = FALSE,
-                             variant = gfm,
+                             variant = "gfm",
                              pandoc_args = "--wrap=none",
                              ...) {
     # Get md document
