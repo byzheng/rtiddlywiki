@@ -47,6 +47,8 @@
 #' @param fields a named vector for tiddler fields
 #' @param use_bookdown logical. Use bookdown to generate markdown file.
 #' @param overwrite whether to overwrite the existing tiddler.
+#' @param variant variant for md_document
+#' @param pandoc_args pandoc_args for md_document
 #' @param ... Other argument pass to md_document
 #' @return R Markdown output format to pass to render()
 #' @export
@@ -68,7 +70,7 @@ tiddler_document <- function(host = NULL,
     if (use_bookdown) {
         output <- bookdown::markdown_document2(...)
     } else {
-        output <- rmarkdown::md_document(...)
+        output <- rmarkdown::md_document(variant = variant, pandoc_args = pandoc_args, ...)
     }
     # Define post processor function
     post_processor <- function(metadata, input_file, output_file, clean, verbose) {
@@ -91,10 +93,10 @@ tiddler_document <- function(host = NULL,
         text <- gsub("&gt;&gt;", ">>", text)
         text <- gsub("\u201C", '"', text)
         text <- gsub("\u201D", '"', text)
-        text <- gsub("\\\\<\\\\<", '<<', text)
-        text <- gsub("\\\\>\\\\>", '>>', text)
+        text <- gsub("\\\\<", '<', text)
+        text <- gsub("\\\\>", '>', text)
         # Update image file path
-        pattern <- c("^(\\!\\[\\]\\()(.+\\.\\w{3})(\\))$",
+        pattern <- c("^(\\!\\[\\]\\()(.+\\.\\w{3})(\\)).*$",
                      "^(<img +src=\")(.+\\.\\w{3})(\".*/>)$")
         i <- 1
         for (i in seq(along = pattern)) {

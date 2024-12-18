@@ -10,6 +10,8 @@ tiddler_document(
   fields = NULL,
   use_bookdown = FALSE,
   overwrite = FALSE,
+  variant = "gfm",
+  pandoc_args = "--wrap=none",
   ...
 )
 }
@@ -23,6 +25,10 @@ tiddler_document(
 \item{use_bookdown}{logical. Use bookdown to generate markdown file.}
 
 \item{overwrite}{whether to overwrite the existing tiddler.}
+
+\item{variant}{variant for md_document}
+
+\item{pandoc_args}{pandoc_args for md_document}
 
 \item{...}{Other argument pass to md_document}
 }
