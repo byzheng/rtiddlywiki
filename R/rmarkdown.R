@@ -86,8 +86,9 @@ tiddler_document <- function(host = NULL,
         text <- gsub("&lt;<", "<<", text)
         text <- gsub("&lt;&lt;", "<<", text)
         text <- gsub(">&gt;", ">>", text)
-        text <- gsub("&gt;&gt", ">>", text)
-
+        text <- gsub("&gt;&gt;", ">>", text)
+        text <- gsub("\u201C", '"', text)
+        text <- gsub("\u201D", '"', text)
         # Update image file path
         pattern <- c("^(\\!\\[\\]\\()(.+\\.\\w{3})(\\))$",
                      "^(<img +src=\")(.+\\.\\w{3})(\".*/>)$")

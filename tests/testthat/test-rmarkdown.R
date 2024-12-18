@@ -167,6 +167,20 @@ test_that("rmarkdown", {
     expect_equal(grepl("<<macro>>", rmd$text), TRUE)
 
 
+    rmd <- render_rmd(c("---", "title: \"test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "    fields:",
+                        "      \"field1\": \"V1\"",
+                        "      \"field 2\": \"Value 2\"",
+                        "---", "",
+                        "",
+                        '<<alert primary """',
+                        'This is a test',
+                        '""">>'
+    ))
+    expect_equal(grepl('"""', rmd$text), TRUE)
 
     skip_if(!is_test_tw())
     rmd <- render_rmd(c("---", "title: \"rmarkdown test\"",
