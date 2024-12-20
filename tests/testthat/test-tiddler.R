@@ -20,6 +20,7 @@ test_that("tiddler", {
     tags = c("TAG 3", "TAG2")
     fields =  list("f2" = "f 2 again", "f3" = "f 3")
     expect_no_error(put_tiddler(title = "test1",
+                                text = text,
                                 tags = c("TAG 3", "TAG2"),
                                 fields = list("f2" = "f 2 again", "f3" = "f 3")))
     new_tiddler <- get_tiddler("test1")
@@ -34,6 +35,7 @@ test_that("tiddler", {
     expect_true(length(tiddlers) > 0)
 
     expect_no_error(put_tiddler(title = "test1",
+                                text = text,
                                 fields = list("f2" = "f 2")))
 
     new_tiddler <- get_tiddler("test1")

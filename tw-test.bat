@@ -1,1 +1,1 @@
-tiddlywiki tw-test  --listen
+tiddlywiki tw-test  --listen port=9090

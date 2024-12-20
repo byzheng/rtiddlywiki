@@ -212,7 +212,9 @@ test_that("rmarkdown", {
                         "      \"field 2\": \"Value 2\"",
                         "---", "",
                         "",
-                        '<$widget p="C" />'
+                        '| <$widget p="C" /> |',
+                        '| <$widget p="C" /> |',
+                        '| <$widget p="C" /> |'
     ))
     expect_equal(grepl('<\\$widget', rmd$text), TRUE)
 

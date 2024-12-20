@@ -184,3 +184,13 @@ remove_fields <- function(title, fields, recipe = TW_OPTIONS("recipe")) {
                         body = body)
     response
 }
+
+
+#' Get server status
+#'
+#' @return a list of service status
+#' @export
+get_status <- function() {
+    status <- request("GET", "status")
+    status
+}
