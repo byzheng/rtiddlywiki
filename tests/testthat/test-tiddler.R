@@ -19,6 +19,8 @@ test_that("tiddler", {
     type = "text/x-tiddlywiki"
     tags = c("TAG 3", "TAG2")
     fields =  list("f2" = "f 2 again", "f3" = "f 3")
+    expect_no_error(put_tiddler(title = "test1"))
+
     expect_no_error(put_tiddler(title = "test1",
                                 text = text,
                                 tags = c("TAG 3", "TAG2"),

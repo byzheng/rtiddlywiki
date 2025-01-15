@@ -89,7 +89,6 @@ put_tiddler <- function(title, text,
     stopifnot(is.character(title))
     stopifnot(length(recipe) == 1)
     stopifnot(is.character(recipe))
-    stopifnot(length(text) == 1)
     if (!is.null(tags)) {
         stopifnot(is.vector(tags))
         stopifnot(is.character(tags))
