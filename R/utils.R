@@ -187,3 +187,53 @@ split_field <- function(s) {
     }
     v
 }
+
+
+
+#' Save ggplot into base64
+#'
+#' @param plot object for ggplot2
+#' @param width image width
+#' @param height image height
+#' @param dpi image resolution
+#'
+#' @returns character string for base64 image
+#' @export
+#' @examples
+#'
+#' library(ggplot2)
+#' p <- cars |>
+#'     ggplot() +
+#'     geom_point(aes(speed, dist))
+#' p |> save_base64()
+save_base64 <- function(plot, width = 5, height = 4, dpi = 300) {
+    if (!requireNamespace("base64enc", quietly = TRUE)) {
+        stop("Please install the 'base64enc' package.")
+    }
+    temp_file <- tempfile(fileext = ".png")
+    ggplot2::ggsave(temp_file, plot = plot, device = "png", width = width, height = height, dpi = dpi)
+    base64_image <- base64enc::dataURI(file = temp_file, mime = "image/png")
+    unlink(temp_file)
+    return(base64_image)
+}
+
+
+#' Convert data.frame into table of TiddlyWiki
+#'
+#' @param df data.frame object
+#' @param collapse an optional character string to separate the results.
+#'
+#' @returns character string for table in TiddlyWiki
+#' @export
+#'
+#' @examples
+#' cars |>
+#' dplyr::slice(1:10) |>
+#' tw_table()
+tw_table <- function(df, collapse = "\n") {
+    stopifnot(is.data.frame(df))
+    k_table <- knitr::kable(df, escape = TRUE)
+    k_table <- k_table[-2]
+    k_table <- gsub("&#124;", "|", k_table)
+    paste(k_table, collapse = collapse)
+}
