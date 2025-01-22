@@ -108,7 +108,9 @@ put_tiddler <- function(title, text,
         if (missing(type)) {
             type <- old_tiddler$type
         }
-        tags <- unique(c(tags, old_tiddler$tags))
+        if (is.null(tags)) {
+            tags <- old_tiddler$tags
+        }
         if (!is.null(old_tiddler$fields)) {
             fields <- utils::modifyList(old_tiddler$fields, as.list(fields))
         }

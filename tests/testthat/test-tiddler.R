@@ -29,7 +29,7 @@ test_that("tiddler", {
     expect_equal(new_tiddler$title, "test1")
     expect_equal(new_tiddler$text, "This is a test tiddler")
     expect_equal(new_tiddler$type, "text/vnd.tiddlywiki")
-    expect_equal(new_tiddler$tags, c("TAG 3", "TAG2", "TAG 1"))
+    expect_equal(new_tiddler$tags, c("TAG 3", "TAG2"))
     expect_equal(new_tiddler$fields$f1, "f1")
     expect_equal(new_tiddler$fields$f2, "f 2 again")
     expect_equal(new_tiddler$fields$f3, "f 3")
@@ -44,7 +44,7 @@ test_that("tiddler", {
     expect_equal(new_tiddler$title, "test1")
     expect_equal(new_tiddler$text, "This is a test tiddler")
     expect_equal(new_tiddler$type, "text/vnd.tiddlywiki")
-    expect_equal(new_tiddler$tags, c("TAG 3", "TAG2", "TAG 1"))
+    expect_equal(new_tiddler$tags, c("TAG 3", "TAG2"))
     expect_equal(new_tiddler$fields$f1, "f1")
     expect_equal(new_tiddler$fields$f2, "f 2")
 
