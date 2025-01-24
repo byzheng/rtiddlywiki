@@ -42,12 +42,17 @@ test_that("rmarkdown", {
         }
     }
 
-    render_rmd <- function(..., .env = parent.frame()) {
+    render_rmd <- function(..., output_file = NULL, .env = parent.frame()) {
         temp_input_file <- tempfile(fileext = ".Rmd")
         text <- c(...)
         writeLines(text, temp_input_file)
-        temp_output_file <- paste0(tools::file_path_sans_ext(temp_input_file), ".json")
+        if (is.null(output_file)) {
+            temp_output_file <- paste0(tools::file_path_sans_ext(temp_input_file), ".json")
+        } else {
+            temp_output_file <- paste0(tools::file_path_sans_ext(output_file), ".json")
+        }
         rmarkdown::render(temp_input_file,
+                          output_file = output_file,
                           quiet = TRUE)
         r <- jsonlite::read_json(temp_output_file)
         file.remove(temp_output_file, temp_input_file)
@@ -55,6 +60,17 @@ test_that("rmarkdown", {
     }
 
     skip_if_not_pandoc()
+    # Test output_file
+    output_file <- tempfile()
+    rmd <- render_rmd(c("---", "title: \"test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "---", "",
+                        "# Section 1",
+                        "This is a test"), output_file = output_file)
+
+
     rmd <- render_rmd(c("---", "title: \"test\"",
                         "output: ",
                         "  tiddler_document:",
@@ -239,6 +255,31 @@ test_that("rmarkdown", {
                         "    ggplot() +",
                         "    geom_point(aes(speed, dist))",
                         "```"))
+    tiddler <- get_tiddler("rmarkdown test")
+    expect_equal(tiddler$fields$field1, "V1")
+    expect_equal(tiddler$fields$`field 2`, "Value 2")
+    expect_equal(tiddler$tags, c("tag1", "tag 2"))
+    expect_equal(tiddler$title, "rmarkdown test")
+    expect_equal(tiddler$type, "text/x-markdown")
+    expect_no_error(delete_tiddler("rmarkdown test"))
+
+    # Test output file
+    rmd <- render_rmd(c("---", "title: \"rmarkdown test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        sprintf('    host: "%s"', tw_options("host")),
+                        "    tags: [\"tag1\", \"tag 2\"]",
+                        "    fields:",
+                        "      \"field1\": \"V1\"",
+                        "      \"field 2\": \"Value 2\"",
+                        "---", "",
+                        "```{r static-images-1}",
+                        "",
+                        "library(ggplot2)",
+                        "cars |> ",
+                        "    ggplot() +",
+                        "    geom_point(aes(speed, dist))",
+                        "```"), output_file = output_file)
     tiddler <- get_tiddler("rmarkdown test")
     expect_equal(tiddler$fields$field1, "V1")
     expect_equal(tiddler$fields$`field 2`, "Value 2")
