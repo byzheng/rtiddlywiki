@@ -65,6 +65,9 @@ request <- function(method = "GET",
     if (!is.null(c_type) && grepl("text/plain", c_type)) {
         content <- resp |>
             httr2::resp_body_string()
+    } else if (!is.null(c_type) && grepl("text/html", c_type)) {
+        content <- resp |>
+            httr2::resp_body_string()
     } else {
         content <- resp |>
             httr2::resp_body_json()
