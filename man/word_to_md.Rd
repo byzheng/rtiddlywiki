@@ -4,12 +4,17 @@
 \alias{word_to_md}
 \title{Convert a Word File to Markdown with Optional Embedded Images}
 \usage{
-word_to_md(docx_file, output_file, embed_images = FALSE, overwrite = FALSE)
+word_to_md(
+  docx_file,
+  output_file = NULL,
+  embed_images = FALSE,
+  overwrite = FALSE
+)
 }
 \arguments{
 \item{docx_file}{Path to the input Word file.}
 
-\item{output_file}{Path to the final Markdown output file.}
+\item{output_file}{Path to the final Markdown output file. If null, the original file name.}
 
 \item{embed_images}{Logical. If `TRUE`, all images will be embedded as Base64. Default is `FALSE`.}
 
