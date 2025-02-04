@@ -17,10 +17,13 @@ read_table <- function(table, header = TRUE) {
     stopifnot(is.vector(table))
     stopifnot(nchar(table) > 0)
     # Split table into lines
+
     lines <- strsplit(table, "\n")[[1]]
 
     # Remove empty lines
     lines <- lines[nzchar(lines)]
+    # remove lines which don't start with |
+    lines <- lines[grepl("^\\|", lines)]
     pattern <- " *\\|!? *"
     if (header) {
         headers <- (unlist(strsplit(lines[1], pattern)))
