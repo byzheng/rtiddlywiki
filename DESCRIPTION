@@ -24,7 +24,8 @@ Imports:
    rvest,
    knitr,
    base64enc,
-   ggplot2
+   ggplot2,
+   htmltools
 RoxygenNote: 7.3.1
 Suggests: 
     leaflet,
