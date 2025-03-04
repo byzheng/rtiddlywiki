@@ -30,5 +30,6 @@ RoxygenNote: 7.3.1
 Suggests: 
     leaflet,
     dplyr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    processx
 VignetteBuilder: knitr

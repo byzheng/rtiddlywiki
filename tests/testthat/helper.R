@@ -16,3 +16,5 @@ is_test_tw <- function() {
     return(FALSE)
 }
 
+
+test_folder <- function() "dsdkdhfsdahfsahfskafhsodisafsacsdfsajf"
