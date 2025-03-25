@@ -13,6 +13,12 @@
     title
 }
 
+.is_valid_url <- function(url) {
+    if (is.null(url) || url == "") return(FALSE)
+    parsed <- httr2::url_parse(url)
+    return(!is.null(parsed$scheme) && !is.null(parsed$hostname))
+}
+
 .pretty_link <- function(text) {
 #    pattern <- "\\\\\\[\\\\\\[([a-zA-Z0-9 |]+)\\\\\\]\\\\\\]"
     pattern <- "\\\\\\[\\\\\\[([^\\[]+)\\\\\\]\\\\\\]"
@@ -43,6 +49,7 @@
 #' Format for converting from R Markdown to another tiddler markdown
 #'
 #' @param host the host of tiddlywiki web server
+#' @param remote whether put into remote TiddlyWiki Node.js Server
 #' @param tags tiddler tags
 #' @param fields a named vector for tiddler fields
 #' @param use_bookdown logical. Use bookdown to generate markdown file.
@@ -59,6 +66,7 @@
 #' render("input.Rmd")
 #' }
 tiddler_document <- function(host = NULL,
+                             remote = FALSE,
                              tags = NULL,
                              fields = NULL,
                              use_bookdown = FALSE,
@@ -66,6 +74,14 @@ tiddler_document <- function(host = NULL,
                              variant = "gfm",
                              pandoc_args = "--wrap=none",
                              ...) {
+    stopifnot(length(remote) == 1)
+    stopifnot(is.logical(remote))
+    if (!is.null(host)) {
+        stopifnot(length(host) == 1)
+        stopifnot(.is_valid_url(host))
+    }
+
+
     # Get md document
     if (use_bookdown) {
         output <- bookdown::markdown_document2(...)
@@ -137,8 +153,13 @@ tiddler_document <- function(host = NULL,
                                  paste0(tools::file_path_sans_ext(basename(output_file)), ".json"))
         writeLines(body, output_file)
         # Push into server if host is specified
-        if (!is.null(host)) {
-            tw_options(host = host)
+        if (remote) {
+            if (!is.null(host)) {
+                tw_options(host = host)
+            }
+            if (!.is_valid_url(tw_options()$host)) {
+                stop("Host is not a valid URL: ", tw_options()$host)
+            }
             res <- get_tiddler(title = title)
             if (length(res) > 0 && !overwrite) {
                 stop("Existed tiddler with title: ", title)

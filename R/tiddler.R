@@ -178,6 +178,8 @@ remove_fields <- function(title, fields, recipe = TW_OPTIONS("recipe")) {
     #}
     if (is.null(new_tiddler$text)) {
         new_tiddler$text <- ""
+    } else if (length(new_tiddler$text) > 1) {
+        new_tiddler$text <- paste(new_tiddler$text, collapse = "\n")
     }
     body <- tiddler_json2(new_tiddler)
     response <- request("PUT",

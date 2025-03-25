@@ -2,6 +2,23 @@ test_that("tiddler", {
     skip_if(!is_test_tw())
     expect_null(get_tiddler("test-missing"))
     expect_no_error(delete_tiddler("test1"))
+
+    # test in text
+    expect_error(put_tiddler("test00",
+                                type = "text/x-tiddlywiki",
+                                tags = c("TAG 1", "TAG2"),
+                                fields = list("f1" = "f1", "f2" = "f 2")))
+
+    expect_no_error(put_tiddler("test0", text = c("", ""),
+                                type = "text/x-tiddlywiki",
+                                tags = c("TAG 1", "TAG2"),
+                                fields = list("f1" = "f1", "f2" = "f 2")))
+    expect_no_error(put_tiddler("test0",
+                                type = "text/x-tiddlywiki",
+                                tags = c("TAG 1", "TAG2"),
+                                fields = list("f1" = "f1", "f2" = "f 2")))
+
+
     expect_no_error(put_tiddler("test1", "This is a test tiddler",
                                 type = "text/x-tiddlywiki",
                                 tags = c("TAG 1", "TAG2"),

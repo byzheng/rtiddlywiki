@@ -6,6 +6,7 @@
 \usage{
 tiddler_document(
   host = NULL,
+  remote = FALSE,
   tags = NULL,
   fields = NULL,
   use_bookdown = FALSE,
@@ -17,6 +18,8 @@ tiddler_document(
 }
 \arguments{
 \item{host}{the host of tiddlywiki web server}
+
+\item{remote}{whether put into remote TiddlyWiki Node.js Server}
 
 \item{tags}{tiddler tags}
 

@@ -1,3 +1,13 @@
+test_that(".is_valid_url", {
+    expect_false(.is_valid_url("test"))
+    expect_true(.is_valid_url("http://example.com"))
+    expect_true(.is_valid_url("https://example.com/"))
+    expect_true(.is_valid_url("https://example.com/a"))
+})
+
+
+
+
 test_that("Get title", {
     expect_null(.get_title("test"))
     expect_equal(.get_title("title: test"), "test")
@@ -239,9 +249,26 @@ test_that("rmarkdown", {
 
     # Test Tddlywiki
     skip_if(!is_test_tw())
+
     rmd <- render_rmd(c("---", "title: \"rmarkdown test\"",
                         "output: ",
                         "  tiddler_document:",
+                        "    remote: false",
+                        "---", "",
+                        "```{r static-images-1}",
+                        "",
+                        "library(ggplot2)",
+                        "cars |> ",
+                        "    ggplot() +",
+                        "    geom_point(aes(speed, dist))",
+                        "```"))
+    tiddler <- get_tiddler("rmarkdown test")
+    expect_null(tiddler)
+
+    rmd <- render_rmd(c("---", "title: \"rmarkdown test\"",
+                        "output: ",
+                        "  tiddler_document:",
+                        "    remote: true",
                         sprintf('    host: "%s"', tw_options("host")),
                         "    tags: [\"tag1\", \"tag 2\"]",
                         "    fields:",
@@ -267,7 +294,7 @@ test_that("rmarkdown", {
     rmd <- render_rmd(c("---", "title: \"rmarkdown test\"",
                         "output: ",
                         "  tiddler_document:",
-                        sprintf('    host: "%s"', tw_options("host")),
+                        "    remote: true",
                         "    tags: [\"tag1\", \"tag 2\"]",
                         "    fields:",
                         "      \"field1\": \"V1\"",
