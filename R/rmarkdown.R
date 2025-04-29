@@ -84,7 +84,7 @@ tiddler_document <- function(host = NULL,
 
     # Get md document
     if (use_bookdown) {
-        output <- bookdown::markdown_document2(...)
+        output <- bookdown::markdown_document2(variant = variant, pandoc_args = pandoc_args, ...)
     } else {
         output <- rmarkdown::md_document(variant = variant, pandoc_args = pandoc_args, ...)
     }
