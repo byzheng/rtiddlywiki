@@ -4,16 +4,18 @@
 \alias{save_base64}
 \title{Save ggplot into base64}
 \usage{
-save_base64(plot, width = 5, height = 4, dpi = 300)
+save_base64(plot, width = 5, height = 4, dpi = 300, ...)
 }
 \arguments{
-\item{plot}{object for ggplot2}
+\item{plot}{object for ggplot2 or a function for plot}
 
 \item{width}{image width}
 
 \item{height}{image height}
 
 \item{dpi}{image resolution}
+
+\item{...}{Other arguments for plot function}
 }
 \value{
 character string for base64 image

@@ -192,10 +192,11 @@ split_field <- function(s) {
 
 #' Save ggplot into base64
 #'
-#' @param plot object for ggplot2
+#' @param plot object for ggplot2 or a function for plot
 #' @param width image width
 #' @param height image height
 #' @param dpi image resolution
+#' @param ... Other arguments for plot function
 #'
 #' @returns character string for base64 image
 #' @export
@@ -206,14 +207,34 @@ split_field <- function(s) {
 #'     ggplot() +
 #'     geom_point(aes(speed, dist))
 #' p |> save_base64()
-save_base64 <- function(plot, width = 5, height = 4, dpi = 300) {
+save_base64 <- function(plot, width = 5, height = 4, dpi = 300, ...) {
     if (!requireNamespace("base64enc", quietly = TRUE)) {
         stop("Please install the 'base64enc' package.")
     }
+
+    # Create temporary file
     temp_file <- tempfile(fileext = ".png")
-    ggplot2::ggsave(temp_file, plot = plot, device = "png", width = width, height = height, dpi = dpi)
+    # Calculate pixel size
+    pixel_width <- width * dpi
+    pixel_height <- height * dpi
+
+
+    grDevices::png(filename = temp_file, width = pixel_width, height = pixel_height, res = dpi)
+    on.exit({
+        unlink(temp_file)
+    }, add = TRUE)
+
+    if (is.function(plot)) {
+        plot(...)
+    } else {
+        print(plot)
+    }
+
+    # Turn off device
+    grDevices::dev.off()
+
+    # Encode to base64
     base64_image <- base64enc::dataURI(file = temp_file, mime = "image/png")
-    unlink(temp_file)
     return(base64_image)
 }
 

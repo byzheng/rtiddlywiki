@@ -23,6 +23,15 @@ test_that("save_base64", {
     p_base64 <- p |> save_base64()
     expect_length(p_base64, 1)
     expect_true(grepl("data:image/png;base64", p_base64))
+
+    plot <- function() {
+        print(p, vp = grid::viewport(0.5, 0.25, 1, 0.5))
+        print(p, vp = grid::viewport(0.5, 0.75, 1, 0.5))
+    }
+    expect_no_error(p_base64 <- plot |> save_base64())
+    expect_length(p_base64, 1)
+    expect_true(grepl("data:image/png;base64", p_base64))
+
 })
 
 
