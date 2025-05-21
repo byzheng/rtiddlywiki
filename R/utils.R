@@ -207,10 +207,39 @@ split_field <- function(s) {
 #'     ggplot() +
 #'     geom_point(aes(speed, dist))
 #' p |> save_base64()
-save_base64 <- function(plot, width = 5, height = 4, dpi = 300, ...) {
+save_base64 <- function(plot, width = NULL, height = NULL, dpi = 300, ...) {
     if (!requireNamespace("base64enc", quietly = TRUE)) {
         stop("Please install the 'base64enc' package.")
     }
+
+    if (!is.null(width)) {
+        stopifnot(length(width) == 1)
+        stopifnot(is.numeric(width))
+    }
+
+    if (!is.null(height)) {
+        stopifnot(length(height) == 1)
+        stopifnot(is.numeric(height))
+    }
+
+    stopifnot(length(dpi) == 1)
+    stopifnot(is.numeric(dpi))
+
+    # Define a null coalescing operator
+    `%||%` <- function(a, b) if (!is.null(a)) a else b
+
+    # Determine if knitting is in progress
+    in_knitr <- isTRUE(getOption("knitr.in.progress"))
+
+    # Use knitr options if available and width/height are not provided
+    if (is.null(width)) {
+        width <- if (in_knitr) knitr::opts_current$get("fig.width") %||% 5 else 5
+    }
+
+    if (is.null(height)) {
+        height <- if (in_knitr) knitr::opts_current$get("fig.height") %||% 4 else 4
+    }
+
 
     # Create temporary file
     temp_file <- tempfile(fileext = ".png")

@@ -20,7 +20,7 @@ test_that("save_base64", {
     p <- cars |>
         ggplot() +
         geom_point(aes(speed, dist))
-    p_base64 <- p |> save_base64()
+    expect_no_error(p_base64 <- p |> save_base64())
     expect_length(p_base64, 1)
     expect_true(grepl("data:image/png;base64", p_base64))
 
@@ -32,6 +32,9 @@ test_that("save_base64", {
     expect_length(p_base64, 1)
     expect_true(grepl("data:image/png;base64", p_base64))
 
+    expect_no_error(p_base64 <- p |> save_base64(width = 4))
+    expect_no_error(p_base64 <- p |> save_base64(height = 4, dpi = 100))
+    expect_error(p_base64 <- p |> save_base64(height = "e", dpi = "error"))
 })
 
 
