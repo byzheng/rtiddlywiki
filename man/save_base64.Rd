@@ -4,7 +4,7 @@
 \alias{save_base64}
 \title{Save ggplot into base64}
 \usage{
-save_base64(plot, width = NULL, height = NULL, dpi = 300, ...)
+save_base64(plot, width = NULL, height = NULL, dpi = NULL, ...)
 }
 \arguments{
 \item{plot}{object for ggplot2 or a function for plot}
