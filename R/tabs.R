@@ -68,10 +68,14 @@ tabs <- function(names, fun, groupname = .unique_name(), checked = 1, ...) {
     }
 
     # Combine everything
-    htmltools::div(
+    res <- htmltools::div(
         class = "tabs",
         htmltools::div(class = "tab-buttons tc-tab-buttons", buttons),
         htmltools::div(class = "tab-content", contents)
     )
+    return(structure(
+        res,
+        class = c("tw_html", "tw_tabs", class(res))
+    ))
 }
 

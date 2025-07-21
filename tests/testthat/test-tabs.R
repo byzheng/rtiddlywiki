@@ -14,3 +14,4 @@ test_that("tabs", {
 
     expect_equal(length(html), 3)
 })
+
