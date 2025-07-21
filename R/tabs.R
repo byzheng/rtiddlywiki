@@ -151,9 +151,8 @@ create_tabs <- function(...) {
 
         if ("ggplot" %in% class_i) {
             # Default width if not provided
-            width <- args$width %||% "100%"
             img <- do.call(save_base64, c(list(object), args))
-            return(htmltools::tags$img(src = img, width = width))
+            return(htmltools::tags$img(src = img, width = "100%"))
         } else if ("data.frame" %in% class_i || "tbl_df" %in% class_i) {
             tbl <- do.call(kable_html, c(list(object), args))
             return(tbl)
