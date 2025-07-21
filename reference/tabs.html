@@ -87,37 +87,13 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tab_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tab1"</span>, <span class="st">"Tab2"</span>, <span class="st">"Tab3"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">tab_content_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span>, <span class="va">extra_text</span> <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu">htmltools</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">p</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Content for tab:"</span>, <span class="va">tab_labels</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">extra_text</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu">htmltools</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">img</span><span class="op">(</span>src <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"plot_"</span>, <span class="va">i</span>, <span class="st">".png"</span><span class="op">)</span>, width <span class="op">=</span> <span class="st">"100%"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="fu">htmltools</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">p</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Content for tab:"</span>, <span class="va">tab_labels</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">extra_text</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        <span class="fu">htmltools</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">img</span><span class="op">(</span>src <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"plot_"</span>, <span class="va">i</span>, <span class="st">".png"</span><span class="op">)</span>, width <span class="op">=</span> <span class="st">"100%"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">tabs</span><span class="op">(</span><span class="va">tab_labels</span>, <span class="va">tab_content_fun</span>, checked <span class="op">=</span> <span class="fl">2</span>, extra_text <span class="op">=</span> <span class="st">"Additional details"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;div class="tabs"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="tab-buttons tc-tab-buttons"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;input type="radio" id="CVPEAMMHTU-Tab1" name="CVPEAMMHTU"/&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;label for="CVPEAMMHTU-Tab1"&gt;Tab1&lt;/label&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;input type="radio" id="CVPEAMMHTU-Tab2" name="CVPEAMMHTU" checked="checked"/&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;label for="CVPEAMMHTU-Tab2"&gt;Tab2&lt;/label&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;input type="radio" id="CVPEAMMHTU-Tab3" name="CVPEAMMHTU"/&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;label for="CVPEAMMHTU-Tab3"&gt;Tab3&lt;/label&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;/div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="tab-content"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;p&gt;Content for tab: Tab1 Additional details&lt;/p&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;img src="plot_1.png" width="100%"/&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;p&gt;Content for tab: Tab2 Additional details&lt;/p&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;img src="plot_2.png" width="100%"/&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;p&gt;Content for tab: Tab3 Additional details&lt;/p&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;img src="plot_3.png" width="100%"/&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;/div&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/div&gt;</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -130,7 +106,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
