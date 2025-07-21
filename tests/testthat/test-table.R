@@ -34,3 +34,15 @@ test_that("read_table handles empty input", {
     table <- ""
     expect_error(df <- read_table(table, header = TRUE))
 })
+
+
+test_that("kable_html converts data frame to HTML table", {
+    df <- data.frame(Col1 = c("A", "B"), Col2 = c("C", "D"))
+    html_table <- kable_html(df)
+
+    expect_true(grepl("<table", html_table))
+    expect_true(grepl("<th.*> *Col1 *</th>", html_table))
+    expect_true(grepl("<td.*> *B *</td>", html_table))
+    expect_true(grepl("<td.*> *C *</td>", html_table))
+    expect_error(kable_html("not a data frame"))
+})

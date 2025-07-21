@@ -15,8 +15,12 @@
 
 .is_valid_url <- function(url) {
     if (is.null(url) || url == "") return(FALSE)
-    parsed <- httr2::url_parse(url)
-    return(!is.null(parsed$scheme) && !is.null(parsed$hostname))
+    tryCatch({
+        parsed <- httr2::url_parse(url)
+        return(!is.null(parsed$scheme) && !is.null(parsed$hostname))
+    }, error = function(e) {
+        return (FALSE)
+    })
 }
 
 .pretty_link <- function(text) {

@@ -51,3 +51,23 @@ read_table <- function(table, header = TRUE) {
 
     return(df)
 }
+
+
+#' Convert Data Frame to HTML Table using kable
+#'
+#' @param df A data frame to be converted to an HTML table.
+#' @param ... Other arguments to be passed to `knitr::kable`.
+#'
+#' @returns A htmltools object containing the HTML representation of the table.
+#' @export
+#'
+#' @examples
+#' kable_html(cars[1:10,])
+kable_html <- function(df, ...) {
+    stopifnot(is.data.frame(df))
+    df |>
+        knitr::kable(format = "html", ...) |>
+        as.character() |>
+        htmltools::HTML()
+}
+
