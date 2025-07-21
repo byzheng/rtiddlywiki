@@ -125,6 +125,16 @@ test_that("tiddler", {
 
     titles <- c("tiddler with space", "tiddler with space :",
                 "/tiddler with space /")
+
+    for (i in seq(along = titles)) {
+        expect_no_error(put_tiddler(titles[i], "",
+                                type = "text/vnd.tiddlywiki"))
+
+        expect_no_error(delete_tiddler(titles[i]))
+    }
+
+    titles <- c("tiddler with space", "tiddler with space :",
+                "/tiddler with space /")
     for (i in seq(along = titles)) {
         expect_error(put_tiddler(titles[i], "",
                                  type = "application/json",
