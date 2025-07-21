@@ -19,7 +19,7 @@
         parsed <- httr2::url_parse(url)
         return(!is.null(parsed$scheme) && !is.null(parsed$hostname))
     }, error = function(e) {
-        return (FALSE)
+        return(FALSE)
     })
 }
 
