@@ -242,7 +242,7 @@ save_base64 <- function(plot, width = NULL, height = NULL, dpi = NULL, ...) {
 
 
     if (is.null(dpi)) {
-        dpi <- if (in_knitr) knitr::opts_current$get("dpi") %||% 72 else 72
+        dpi <- if (in_knitr) knitr::opts_current$get("dpi") %||% 150 else 150
     }
 
     # Create temporary file
