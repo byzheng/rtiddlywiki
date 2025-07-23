@@ -1,9 +1,10 @@
 # Generate tabs in the tiddlywiki
 
-.unique_name <- function(n = 10) {
-    stringi::stri_rand_strings(1, n, "[A-Z]")
+.unique_name <- function(prefix = "id") {
+    entropy <- paste(Sys.time(), stats::runif(1), sample(1e6, 1), sep = "-")
+    hash <- digest::digest(entropy, algo = "sha1")  # 40 hex characters
+    paste0(prefix, "-", hash)
 }
-
 
 #' Generate HTML Tabs with Dynamic Content
 #'
