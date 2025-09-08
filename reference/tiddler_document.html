@@ -53,6 +53,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tiddler_document</span><span class="op">(</span></span>
 <span>  host <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  remote <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  preview <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  tags <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fields <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  use_bookdown <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -73,6 +74,10 @@
 
 <dt id="arg-remote">remote<a class="anchor" aria-label="anchor" href="#arg-remote"></a></dt>
 <dd><p>whether put into remote TiddlyWiki Node.js Server</p></dd>
+
+
+<dt id="arg-preview">preview<a class="anchor" aria-label="anchor" href="#arg-preview"></a></dt>
+<dd><p>whether to send `open_tiddler` command to ws server (tw-livebridge) to preview in browser</p></dd>
 
 
 <dt id="arg-tags">tags<a class="anchor" aria-label="anchor" href="#arg-tags"></a></dt>
