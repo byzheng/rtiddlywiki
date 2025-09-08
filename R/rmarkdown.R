@@ -178,7 +178,7 @@ tiddler_document <- function(host = NULL,
                         tags = tags,
                         fields = fields)
             if (preview) {
-                send_open_tiddler(title, tw_options()$host)
+                send_open_tiddler(title)
             }
         }
         output_file
@@ -186,10 +186,10 @@ tiddler_document <- function(host = NULL,
     output$post_processor <- post_processor
     return(output)
 }
-send_open_tiddler <- function(title, host) {
+send_open_tiddler <- function(title) {
+    host <- TW_OPTIONS("host")
+    http_x_auth_key <- TW_OPTIONS("http_x_auth_key")
     stopifnot(length(title) == 1, is.character(title))
-    stopifnot(.is_valid_url(host))
-    
     host_parts <- httr2::url_parse(host)
     default_port <- ifelse(host_parts$scheme == "https", "443", "80")
     
@@ -197,7 +197,13 @@ send_open_tiddler <- function(title, host) {
                         host_parts$hostname,
                         ifelse(is.null(host_parts$port), default_port, host_parts$port))
     
-    ws <- websocket::WebSocket$new(ws_url, autoConnect = FALSE)
+    ws <- websocket::WebSocket$new(ws_url, autoConnect = FALSE,
+                                    headers = if (nchar(http_x_auth_key) > 0) {
+                                        list("X-Auth-Key" = http_x_auth_key)
+                                    } else {
+                                        list()
+                                    }
+            )
     
     ws$onOpen(function(event) {
         msg <- list(type = "open-tiddler", title = title)
