@@ -54,6 +54,7 @@
 #'
 #' @param host the host of tiddlywiki web server
 #' @param remote whether put into remote TiddlyWiki Node.js Server
+#' @param preview whether to send `open_tiddler` command to ws server (tw-livebridge) to preview in browser
 #' @param tags tiddler tags
 #' @param fields a named vector for tiddler fields
 #' @param use_bookdown logical. Use bookdown to generate markdown file.
@@ -71,6 +72,7 @@
 #' }
 tiddler_document <- function(host = NULL,
                              remote = FALSE,
+                             preview = FALSE,
                              tags = NULL,
                              fields = NULL,
                              use_bookdown = FALSE,
@@ -175,9 +177,51 @@ tiddler_document <- function(host = NULL,
                         type = "text/x-markdown",
                         tags = tags,
                         fields = fields)
+            if (preview) {
+                send_open_tiddler(title, host)
+            }
         }
         output_file
     }
     output$post_processor <- post_processor
     return(output)
+}
+.is_valid_url <- function(url) {
+    if (is.null(url) || url == "") return(FALSE)
+    tryCatch({
+        parsed <- httr2::url_parse(url)
+        return(!is.null(parsed$scheme) && !is.null(parsed$hostname))
+    }, error = function(e) {
+        return(FALSE)
+    })
+}
+title <- "Summary of Field Experiment for FHAMA Project"
+send_open_tiddler <- function(title, host) {
+    stopifnot(length(title) == 1, is.character(title))
+    stopifnot(.is_valid_url(host))
+    
+    host_parts <- httr2::url_parse(host)
+    default_port <- ifelse(host_parts$scheme == "https", "443", "80")
+    
+    ws_url <- sprintf("ws://%s:%s/ws",
+                        host_parts$hostname,
+                        ifelse(is.null(host_parts$port), default_port, host_parts$port))
+    
+    ws <- websocket::WebSocket$new(ws_url, autoConnect = FALSE)
+    
+    ws$onOpen(function(event) {
+        msg <- list(type = "open-tiddler", title = title)
+        ws$send(jsonlite::toJSON(msg, auto_unbox = TRUE))
+        message("Sent open-tiddler command for: ", title)
+        later::later(function() ws$close(), 0.1)
+    })
+    
+    ws$onError(function(event) {
+        warning("WebSocket error: ", event$message)
+    })
+    
+    tryCatch(
+        ws$connect(),
+        error = function(e) warning("Failed to connect WebSocket: ", e$message)
+    )
 }

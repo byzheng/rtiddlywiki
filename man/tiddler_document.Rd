@@ -7,6 +7,7 @@
 tiddler_document(
   host = NULL,
   remote = FALSE,
+  preview = FALSE,
   tags = NULL,
   fields = NULL,
   use_bookdown = FALSE,
@@ -20,6 +21,8 @@ tiddler_document(
 \item{host}{the host of tiddlywiki web server}
 
 \item{remote}{whether put into remote TiddlyWiki Node.js Server}
+
+\item{preview}{whether to send `open_tiddler` command to ws server (tw-livebridge) to preview in browser}
 
 \item{tags}{tiddler tags}
 
