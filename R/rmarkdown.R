@@ -178,7 +178,7 @@ tiddler_document <- function(host = NULL,
                         tags = tags,
                         fields = fields)
             if (preview) {
-                send_open_tiddler(title, host)
+                send_open_tiddler(title, tw_options()$host)
             }
         }
         output_file
@@ -186,16 +186,6 @@ tiddler_document <- function(host = NULL,
     output$post_processor <- post_processor
     return(output)
 }
-.is_valid_url <- function(url) {
-    if (is.null(url) || url == "") return(FALSE)
-    tryCatch({
-        parsed <- httr2::url_parse(url)
-        return(!is.null(parsed$scheme) && !is.null(parsed$hostname))
-    }, error = function(e) {
-        return(FALSE)
-    })
-}
-title <- "Summary of Field Experiment for FHAMA Project"
 send_open_tiddler <- function(title, host) {
     stopifnot(length(title) == 1, is.character(title))
     stopifnot(.is_valid_url(host))
