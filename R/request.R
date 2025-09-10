@@ -1,5 +1,9 @@
 
+.ip_cache_success <- new.env(parent = emptyenv())
+
+
 .check_ip <- function(req) {
+
     # Extract host/domain from request object
     url <- httr2::url_parse(req$url)
     port <- url$port
@@ -7,6 +11,12 @@
         port <- ifelse(url$scheme == "https", 443, 80)
     }
     domain <- url$hostname
+    if (exists(domain, envir = .ip_cache_success)) {
+        resolved <- get(domain, envir = .ip_cache_success)
+        try_req <- req |> httr2::req_options(resolve = resolved)
+        return(try_req)
+    }
+
     stopifnot(length(domain) == 1)
     
     tryCatch({
@@ -14,15 +24,15 @@
         ips <- pingr::nsl(domain)
         
         if (length(ips) == 0) return(req)
-        if (nrow(ips$answer) == 1) return(req)
+        if (nrow(ips$answer) <= 1) return(req)
         
         for (i in seq_len(nrow(ips$answer))) {
             ip <- ips$answer$data[[i]]
             url2 <- url
             url2$hostname <- ip
-            
+            resolved <- paste0(domain, ":", port, ":", ip)
             try_req <- req |>
-                httr2::req_options(resolve  = paste0(domain, ":", port, ":", ip)) # self signed ssl
+                httr2::req_options(resolve  = resolved) # self signed ssl
                 
             # Attempt request (head only to test connectivity)
             success <- try({
@@ -32,6 +42,7 @@
             
             if (!inherits(success, "try-error") && success) {
                 message("Connected successfully to IP: ",  ips$answer$data[[i]])
+                assign(domain, resolved, envir = .ip_cache_success)
                 return(try_req)
             }
         }
@@ -66,7 +77,7 @@ request <- function(method = "GET",
             httr2::req_headers(`X-Auth-Key` = http_x_auth_key)
     }
     req <- .check_ip(req)
-    
+
     req <- req |> 
         httr2::req_url_path_append(path) |>
         httr2::req_method(method)
