@@ -80,8 +80,8 @@ tiddler_document <- function(host = NULL,
                              variant = "gfm",
                              pandoc_args = "--wrap=none",
                              ...) {
-    stopifnot(length(remote) == 1)
-    stopifnot(is.logical(remote))
+    stopifnot(length(remote) == 1, is.logical(remote))
+    stopifnot(length(preview) == 1, is.logical(preview))
     if (!is.null(host)) {
         stopifnot(length(host) == 1)
         stopifnot(.is_valid_url(host))
