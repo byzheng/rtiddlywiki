@@ -91,7 +91,7 @@ tiddler_document <- function(host = NULL,
         stopifnot(.is_valid_url(host))
     }
 
-
+    message("Previewing: ", preview)
     # Get md document
     if (use_bookdown) {
         output <- bookdown::markdown_document2(variant = variant, pandoc_args = pandoc_args, ...)
@@ -198,33 +198,47 @@ tiddler_document <- function(host = NULL,
     host_parts <- httr2::url_parse(host)
     default_port <- ifelse(host_parts$scheme == "https", "443", "80")
     default_protocol <- ifelse(host_parts$scheme == "https", "wss", "ws")
-
-    ws_url <- sprintf("%s://%s:%s/ws",
-                        default_protocol,
-                        host_parts$hostname,
-                        ifelse(is.null(host_parts$port), default_port, host_parts$port))
     
-    ws <- websocket::WebSocket$new(ws_url, autoConnect = FALSE,
-                                    headers = if (nchar(http_x_auth_key) > 0) {
-                                        list("X-Auth-Key" = http_x_auth_key)
-                                    } else {
-                                        list()
-                                    }
-            )
+    ws_url <- sprintf("%s://%s:%s/ws",
+                      default_protocol,
+                      host_parts$hostname,
+                      ifelse(is.null(host_parts$port), default_port, host_parts$port))
+    message("Connecting to WebSocket URL: ", ws_url)
+    
+    ws <- websocket::WebSocket$new(
+        ws_url, autoConnect = FALSE,
+        headers = if (nchar(http_x_auth_key) > 0) list("X-Auth-Key" = http_x_auth_key) else list()
+    )
+    
+    state <- new.env(parent = emptyenv())
+    state$done <- FALSE
     
     ws$onOpen(function(event) {
         msg <- list(type = "open-tiddler", title = title)
         ws$send(jsonlite::toJSON(msg, auto_unbox = TRUE))
         message("Sent open-tiddler command for: ", title)
         later::later(function() ws$close(), 0.1)
+        state$done <- TRUE
     })
     
     ws$onError(function(event) {
         warning("WebSocket error: ", event$message)
+        state$done <- TRUE
     })
     
-    tryCatch(
-        ws$connect(),
-        error = function(e) warning("Failed to connect WebSocket: ", e$message)
-    )
+    ws$onClose(function(event) {
+        message("WebSocket closed")
+        state$done <- TRUE
+    })
+    
+    ws$connect()
+    
+    start <- Sys.time()
+    while (!state$done && difftime(Sys.time(), start, units = "secs") < 10) {
+        later::run_now(timeout = 0.1)
+    }
+    if (!state$done) {
+        warning("WebSocket did not respond within 10 seconds")
+        try(ws$close(), silent = TRUE)
+    }
 }
