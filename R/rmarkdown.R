@@ -192,8 +192,10 @@ send_open_tiddler <- function(title) {
     stopifnot(length(title) == 1, is.character(title))
     host_parts <- httr2::url_parse(host)
     default_port <- ifelse(host_parts$scheme == "https", "443", "80")
-    
-    ws_url <- sprintf("ws://%s:%s/ws",
+    default_protocol <- ifelse(host_parts$scheme == "https", "wss", "ws")
+
+    ws_url <- sprintf("%s://%s:%s/ws",
+                        default_protocol,
                         host_parts$hostname,
                         ifelse(is.null(host_parts$port), default_port, host_parts$port))
     
