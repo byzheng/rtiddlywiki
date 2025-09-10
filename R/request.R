@@ -1,4 +1,45 @@
 
+.check_ip <- function(req) {
+    # Extract host/domain from request object
+    url <- httr2::url_parse(req$url)
+    port <- url$port
+    if (is.null(port)) {
+        port <- ifelse(url$scheme == "https", 443, 80)
+    }
+    domain <- url$hostname
+    stopifnot(length(domain) == 1)
+    
+    tryCatch({
+        # Resolve all IPs
+        ips <- pingr::nsl(domain)
+        
+        if (length(ips) == 0) return(req)
+        if (nrow(ips$answer) == 1) return(req)
+        
+        for (i in seq_len(nrow(ips$answer))) {
+            ip <- ips$answer$data[[i]]
+            url2 <- url
+            url2$hostname <- ip
+            
+            try_req <- req |>
+                httr2::req_options(resolve  = paste0(domain, ":", port, ":", ip)) # self signed ssl
+                
+            # Attempt request (head only to test connectivity)
+            success <- try({
+                resp <- httr2::req_perform(try_req)
+                TRUE
+            }, silent = TRUE)
+            
+            if (!inherits(success, "try-error") && success) {
+                message("Connected successfully to IP: ",  ips$answer$data[[i]])
+                return(try_req)
+            }
+        }
+    }, error = function(e) {
+        TRUE
+    })
+    return(req)
+}
 
 request <- function(method = "GET",
                     path = '/',
@@ -14,15 +55,8 @@ request <- function(method = "GET",
     stopifnot(length(host) == 1)
 
     # Create request
-    req <- httr2::request(host) |>
-        httr2::req_options(ssl_verifypeer = 0) |> # self sigined ssl
-        httr2::req_url_path_append(path) |>
-        httr2::req_method(method)
-    if (!is.null(query) && is.list(query)) {
-        query$.req <- req
-        req <- do.call(httr2::req_url_query, query)
-    }
-
+    req <- httr2::request(host) |> 
+        httr2::req_options(ssl_verifypeer = 0) # self signed ssl
 
     # add x-auth-key header for specific permission. not general usage
     http_x_auth_key <- TW_OPTIONS("http_x_auth_key")
@@ -31,6 +65,20 @@ request <- function(method = "GET",
         req <- req |>
             httr2::req_headers(`X-Auth-Key` = http_x_auth_key)
     }
+    req <- .check_ip(req)
+    
+    req <- req |> 
+        httr2::req_url_path_append(path) |>
+        httr2::req_method(method)
+    
+        
+    if (!is.null(query) && is.list(query)) {
+        query$.req <- req
+        req <- do.call(httr2::req_url_query, query)
+    }
+
+
+    
 
     # add header for x-request-with for put request
     if (method %in% c("PUT", "DELETE")) {

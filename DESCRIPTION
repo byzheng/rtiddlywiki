@@ -16,6 +16,7 @@ Imports:
    settings,
    stats,
    httr2 (>= 1.2.0),
+   pingr,
    websocket,
    rmarkdown,
    later,
