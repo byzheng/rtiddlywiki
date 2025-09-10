@@ -82,6 +82,10 @@ tiddler_document <- function(host = NULL,
                              ...) {
     stopifnot(length(remote) == 1, is.logical(remote))
     stopifnot(length(preview) == 1, is.logical(preview))
+    stopifnot(length(use_bookdown) == 1, is.logical(use_bookdown))
+    stopifnot(length(overwrite) == 1, is.logical(overwrite))
+    stopifnot(length(variant) == 1, is.character(variant))
+    stopifnot(length(pandoc_args) == 1, is.character(pandoc_args))
     if (!is.null(host)) {
         stopifnot(length(host) == 1)
         stopifnot(.is_valid_url(host))
