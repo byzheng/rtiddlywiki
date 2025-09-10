@@ -182,7 +182,7 @@ tiddler_document <- function(host = NULL,
                         tags = tags,
                         fields = fields)
             if (preview) {
-                send_open_tiddler(title)
+                .send_open_tiddler(title)
             }
         }
         output_file
@@ -190,7 +190,8 @@ tiddler_document <- function(host = NULL,
     output$post_processor <- post_processor
     return(output)
 }
-send_open_tiddler <- function(title) {
+
+.send_open_tiddler <- function(title) {
     host <- TW_OPTIONS("host")
     http_x_auth_key <- TW_OPTIONS("http_x_auth_key")
     stopifnot(length(title) == 1, is.character(title))
