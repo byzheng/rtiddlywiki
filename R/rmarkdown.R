@@ -43,7 +43,7 @@
     i <- 1
     for (i in seq(along = pos)) {
         t_i <- text[pos[i]]
-        t_i <- stringr::str_replace_all(t_i, pattern, function(m) f(m))
+        t_i <- stringr::str_replace_all(t_i, pattern, function(m) sapply(m, f))
         text[pos[i]] <- t_i
     }
     text
