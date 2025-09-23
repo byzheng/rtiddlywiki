@@ -42,4 +42,3 @@ Suggests:
     processx,
     ggplot2,
     grid
-VignetteBuilder: knitr
