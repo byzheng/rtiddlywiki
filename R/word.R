@@ -43,6 +43,13 @@ word_to_md <- function(docx_file, output_file = NULL, embed_images = FALSE, over
     # Create a temporary directory
     temp_dir <- tempfile()
     dir.create(temp_dir)
+    
+    # Ensure cleanup on exit
+    on.exit({
+        if (dir.exists(temp_dir)) {
+            unlink(temp_dir, recursive = TRUE)
+        }
+    }, add = TRUE)
 
     # Define paths
     temp_md_file <- file.path(temp_dir, "output.md")
@@ -60,6 +67,8 @@ word_to_md <- function(docx_file, output_file = NULL, embed_images = FALSE, over
     if (!embed_images) {
         file.rename(temp_md_file, output_file)
         message("Markdown file saved as '", output_file, "'.")
+        # Clean up temporary directory
+        unlink(temp_dir, recursive = TRUE)
         return(invisible(NULL))
     }
 
@@ -108,4 +117,7 @@ word_to_md <- function(docx_file, output_file = NULL, embed_images = FALSE, over
     # Save the final Markdown file with embedded images
     writeLines(md_content, output_file)
     message("Self-contained Markdown file saved as '", output_file, "'.")
+    
+    # Clean up temporary directory
+    unlink(temp_dir, recursive = TRUE)
 }
