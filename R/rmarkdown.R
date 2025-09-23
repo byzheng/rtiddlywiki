@@ -40,12 +40,7 @@
         link <- utils::URLencode(link)
         gsub(pattern, paste0("\\1", link, "\\3"), x)
     }
-    i <- 1
-    for (i in seq(along = pos)) {
-        t_i <- text[pos[i]]
-        t_i <- stringr::str_replace_all(t_i, pattern, function(m) sapply(m, f))
-        text[pos[i]] <- t_i
-    }
+    text <- stringr::str_replace_all(text, pattern, function(m) sapply(m, f))
     text
 }
 
@@ -198,21 +193,21 @@ tiddler_document <- function(host = NULL,
     host_parts <- httr2::url_parse(host)
     default_port <- ifelse(host_parts$scheme == "https", "443", "80")
     default_protocol <- ifelse(host_parts$scheme == "https", "wss", "ws")
-    
+
     ws_url <- sprintf("%s://%s:%s/ws",
                       default_protocol,
                       host_parts$hostname,
                       ifelse(is.null(host_parts$port), default_port, host_parts$port))
     message("Connecting to WebSocket URL: ", ws_url)
-    
+
     ws <- websocket::WebSocket$new(
         ws_url, autoConnect = FALSE,
         headers = if (nchar(http_x_auth_key) > 0) list("X-Auth-Key" = http_x_auth_key) else list()
     )
-    
+
     state <- new.env(parent = emptyenv())
     state$done <- FALSE
-    
+
     ws$onOpen(function(event) {
         msg <- list(type = "open-tiddler", title = title)
         ws$send(jsonlite::toJSON(msg, auto_unbox = TRUE))
@@ -220,19 +215,19 @@ tiddler_document <- function(host = NULL,
         later::later(function() ws$close(), 0.1)
         state$done <- TRUE
     })
-    
+
     ws$onError(function(event) {
         warning("WebSocket error: ", event$message)
         state$done <- TRUE
     })
-    
+
     ws$onClose(function(event) {
         message("WebSocket closed")
         state$done <- TRUE
     })
-    
+
     ws$connect()
-    
+
     start <- Sys.time()
     while (!state$done && difftime(Sys.time(), start, units = "secs") < 10) {
         later::run_now(timeout = 0.1)
