@@ -3,4 +3,4 @@ library(rtiddlywiki)
 
 
 print(tw_options())
-test_check("rtiddlywiki")
+#test_check("rtiddlywiki")

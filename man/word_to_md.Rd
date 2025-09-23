@@ -29,9 +29,9 @@ This function converts a Word (`.docx`) file to Markdown using Pandoc. Optionall
 \examples{
 # Convert Word to Markdown without embedding images
 \dontrun{
-convert_word_to_markdown("input.docx", "output.md", embed_images = FALSE)
+word_to_md("input.docx", "output.md", embed_images = FALSE)
 
 # Convert and embed images as Base64
-convert_word_to_markdown("input.docx", "output_embedded.md", embed_images = TRUE)
+word_to_md("input.docx", "output_embedded.md", embed_images = TRUE)
 }
 }

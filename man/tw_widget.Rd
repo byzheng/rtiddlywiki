@@ -19,6 +19,7 @@ Create a tiddlywiki widget from htmlwidget
 }
 \examples{
 library(leaflet)
+\dontrun{
 content <- paste(sep = "<br/>",
                  "<b><a href='http://www.samurainoodle.com'>Samurai Noodle</a></b>",
                  "606 5th Ave. S",
@@ -30,4 +31,5 @@ widget <- leaflet() \%>\% addTiles() \%>\%
                   options = popupOptions(closeButton = FALSE)
     )
 tw_widget(widget)
+}
 }

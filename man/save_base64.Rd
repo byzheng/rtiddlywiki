@@ -24,10 +24,11 @@ character string for base64 image
 Save ggplot into base64
 }
 \examples{
-
+\dontrun{
 library(ggplot2)
 p <- cars |>
     ggplot() +
     geom_point(aes(speed, dist))
 p |> save_base64()
+}
 }

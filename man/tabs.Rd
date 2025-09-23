@@ -24,6 +24,7 @@ An `htmltools::tagList` containing the tabbed interface.
 This function creates a tabbed interface where each tab has dynamically generated content.
 }
 \examples{
+\dontrun{
 tab_labels <- c("Tab1", "Tab2", "Tab3")
 
 tab_content_fun <- function(i, extra_text = "") {
@@ -34,5 +35,5 @@ tab_content_fun <- function(i, extra_text = "") {
 }
 
 tabs(tab_labels, tab_content_fun, checked = 2, extra_text = "Additional details")
-
+}
 }

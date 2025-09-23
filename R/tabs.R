@@ -18,6 +18,7 @@
 #'
 #' @return An `htmltools::tagList` containing the tabbed interface.
 #' @examples
+#' \dontrun{
 #' tab_labels <- c("Tab1", "Tab2", "Tab3")
 #'
 #' tab_content_fun <- function(i, extra_text = "") {
@@ -28,7 +29,7 @@
 #' }
 #'
 #' tabs(tab_labels, tab_content_fun, checked = 2, extra_text = "Additional details")
-#'
+#' }
 #' @export
 tabs <- function(names, fun, groupname = .unique_name(), checked = 1, ...) {
     if (!is.character(names) || length(names) == 0) {

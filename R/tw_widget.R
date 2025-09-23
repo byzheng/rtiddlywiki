@@ -9,6 +9,7 @@
 #'
 #' @examples
 #' library(leaflet)
+#' \dontrun{
 #' content <- paste(sep = "<br/>",
 #'                  "<b><a href='http://www.samurainoodle.com'>Samurai Noodle</a></b>",
 #'                  "606 5th Ave. S",
@@ -20,7 +21,7 @@
 #'                   options = popupOptions(closeButton = FALSE)
 #'     )
 #' tw_widget(widget)
-
+#' }
 tw_widget <- function(widget, is_cat = FALSE) {
 
     # If rending a markdown file

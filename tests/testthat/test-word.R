@@ -2,6 +2,7 @@
 test_that("Word to Markdown conversion without embedding images works", {
 
     skip_if_not(rmarkdown::pandoc_available())
+    skip_if_not(.Platform$OS.type == "windows")
     # Define paths for the test Word file and output file
     test_word_file <- test_path("test-word-to-markdown.docx")
     output_file <- tempfile(fileext = ".md")

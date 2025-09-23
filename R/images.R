@@ -11,12 +11,13 @@
 #' @returns character string for base64 image
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' library(ggplot2)
 #' p <- cars |>
 #'     ggplot() +
 #'     geom_point(aes(speed, dist))
 #' p |> save_base64()
+#' }
 save_base64 <- function(plot, width = NULL, height = NULL, dpi = NULL, ...) {
     if (!requireNamespace("base64enc", quietly = TRUE)) {
         stop("Please install the 'base64enc' package.")
