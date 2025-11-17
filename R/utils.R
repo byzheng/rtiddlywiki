@@ -1,4 +1,3 @@
-
 #' Generate tiddler in json format
 #'
 #' @param tiddler A list for new tiddler
@@ -7,12 +6,14 @@
 #' @export
 tiddler_json2 <- function(tiddler) {
     stopifnot(length(tiddler$type) == 1)
-    stopifnot(tiddler$type %in% c("text/vnd.tiddlywiki",
-                            "text/x-tiddlywiki",
-                            "text/x-markdown",
-                            "text/html",
-                            "text/plain",
-                            "application/json"))
+    stopifnot(tiddler$type %in% c(
+        "text/vnd.tiddlywiki",
+        "text/x-tiddlywiki",
+        "text/x-markdown",
+        "text/html",
+        "text/plain",
+        "application/json"
+    ))
     if (!is.null(tiddler$tags)) {
         if (!is.vector(tiddler$tags)) {
             stop("tags should be a vector.")
@@ -56,8 +57,10 @@ tiddler_json2 <- function(tiddler) {
         }
     }
     return(tiddler)
-    jsonlite::toJSON(tiddler, auto_unbox = FALSE,
-                     null = 'null', pretty = TRUE)
+    jsonlite::toJSON(tiddler,
+        auto_unbox = FALSE,
+        null = "null", pretty = TRUE
+    )
 }
 
 
@@ -74,12 +77,14 @@ tiddler_json2 <- function(tiddler) {
 #' @return New tiddler in json format
 #' @export
 tiddler_json <- function(title, text,
-                         type = c("text/vnd.tiddlywiki",
-                                  "text/x-tiddlywiki",
-                                  "text/x-markdown",
-                                  "text/html",
-                                  "text/plain",
-                                  "application/json"),
+                         type = c(
+                             "text/vnd.tiddlywiki",
+                             "text/x-tiddlywiki",
+                             "text/x-markdown",
+                             "text/html",
+                             "text/plain",
+                             "application/json"
+                         ),
                          tags = NULL, fields = NULL,
                          format = c("json", "list")) {
     type <- match.arg(type, several.ok = FALSE)
@@ -107,12 +112,14 @@ tiddler_json <- function(title, text,
         stop("text should have values")
     }
     text <- paste(text, collapse = "\r\n")
-    body <- list(title = jsonlite::unbox(title),
-                 text = jsonlite::unbox(text),
-                 type = jsonlite::unbox(type),
-                 # created = jsonlite::unbox(created),
-                 # created = jsonlite::unbox(created),
-                 tags = jsonlite::unbox(tags))
+    body <- list(
+        title = jsonlite::unbox(title),
+        text = jsonlite::unbox(text),
+        type = jsonlite::unbox(type),
+        # created = jsonlite::unbox(created),
+        # created = jsonlite::unbox(created),
+        tags = jsonlite::unbox(tags)
+    )
     if (!is.null(fields)) {
         f_names <- names(fields)
         if (is.null(f_names) | sum(nchar(f_names) == 0) > 0) {
@@ -133,8 +140,10 @@ tiddler_json <- function(title, text,
         return(body)
     }
 
-    jsonlite::toJSON(body, auto_unbox = FALSE,
-                     null = 'null', pretty = TRUE)
+    jsonlite::toJSON(body,
+        auto_unbox = FALSE,
+        null = "null", pretty = TRUE
+    )
 }
 
 
@@ -156,7 +165,7 @@ split_field <- function(s) {
     s <- stringi::stri_trim_both(s)
     v <- c()
     s_i <- s
-    while(TRUE) {
+    while (TRUE) {
         pos_s <- 1
         spliter <- " "
         if (grepl("^\\[\\[", s_i)) {
@@ -171,16 +180,16 @@ split_field <- function(s) {
         } else {
             pos_n <- pos_n[1] - 1
         }
-        #print(pos_n)
+        # print(pos_n)
         v_i <- substr(s_i, pos_s, pos_n)
-#        print(v_i)
+        #        print(v_i)
         v <- c(v, v_i)
         pos_s <- pos_n + pos_s + 1
         if (pos_s > nchar(s_i)) {
             break
         }
         s_i <- substr(s_i, pos_s, nchar(s_i))
-        #print(s_i)
+        # print(s_i)
         if (nchar(s_i) == 0) {
             break
         }
@@ -200,8 +209,8 @@ split_field <- function(s) {
 #'
 #' @examples
 #' cars |>
-#' dplyr::slice(1:10) |>
-#' tw_table()
+#'     dplyr::slice(1:10) |>
+#'     tw_table()
 tw_table <- function(df, collapse = "\n") {
     stopifnot(is.data.frame(df))
     k_table <- knitr::kable(df, escape = TRUE)
