@@ -1,7 +1,7 @@
 Package: rtiddlywiki
 Type: Package
 Title: R Interface for 'TiddlyWiki'
-Version: 0.5.0
+Version: 0.5.1
 Authors@R: person(given = "Bangyou",
                     family = "Zheng",
                     role = c("aut", "cre"),
