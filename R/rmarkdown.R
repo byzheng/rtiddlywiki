@@ -24,10 +24,33 @@
 }
 
 .pretty_link <- function(text) {
-#    pattern <- "\\\\\\[\\\\\\[([a-zA-Z0-9 |]+)\\\\\\]\\\\\\]"
-    pattern <- "\\\\\\[\\\\\\[([^\\[]+)\\\\\\]\\\\\\]"
-    gsub(pattern, "\\[\\[\\1\\]\\]", text)
+    pattern <- "\\\\\\[\\\\\\[([^]]+)\\\\\\]\\\\\\]"
+
+    # process each element of 'text'
+    sapply(text, function(line) {
+        # find matches
+        m <- gregexpr(pattern, line, perl = TRUE)
+        parts <- regmatches(line, m)[[1]]
+
+        # no matches → return unchanged
+        if (length(parts) == 0 || parts[1] == -1) return(line)
+
+        # process each match
+        replaced <- vapply(parts, function(p) {
+            inside <- sub(pattern, "\\1", p)
+
+            # escape unescaped | 
+            inside <- gsub("(?<!\\\\)\\|", "\\\\|", inside, perl = TRUE)
+
+            paste0("[[", inside, "]]")
+        }, character(1))
+
+        # replace in line
+        regmatches(line, m) <- list(replaced)
+        line
+    }, USE.NAMES = FALSE)
 }
+
 
 
 

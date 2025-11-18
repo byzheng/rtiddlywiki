@@ -29,9 +29,28 @@ test_that("pretty link", {
     text2 <- .pretty_link(text)
     expect_equal(text2[1], "See this [[This is a test]], link again")
     expect_equal(text2[2], "this is a new line")
-    expect_equal(text2[3], "this line has [[link one]] and [[label|link two]]")
+    expect_equal(text2[3], "this line has [[link one]] and [[label\\|link two]]")
 })
 
+expect_equal(
+    .pretty_link("no link here"),
+    "no link here"
+)
+
+expect_equal(
+    .pretty_link("x \\[\\[A\\]\\] y \\[\\[B|C\\]\\] z"),
+    "x [[A]] y [[B\\|C]] z"
+)
+
+expect_equal(
+    .pretty_link("this \\[\\[a\\|b\\]\\] test"),
+    "this [[a\\|b]] test"
+)
+
+expect_equal(
+    .pretty_link("see \\[\\[测试|test\\]\\]"),
+    "see [[测试\\|test]]"
+)
 
 test_that("markdown link", {
     text <- c(
