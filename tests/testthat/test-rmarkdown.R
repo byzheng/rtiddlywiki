@@ -1,3 +1,28 @@
+
+render_rmd <- function(..., output_file = NULL, .env = parent.frame()) {
+    temp_input_file <- tempfile(fileext = ".Rmd")
+    text <- c(...)
+    writeLines(text, temp_input_file)
+    if (is.null(output_file)) {
+        temp_output_file <- paste0(tools::file_path_sans_ext(temp_input_file), ".json")
+    } else {
+        temp_output_file <- paste0(tools::file_path_sans_ext(output_file), ".json")
+    }
+    rmarkdown::render(temp_input_file,
+        output_file = output_file,
+        quiet = TRUE
+    )
+    r <- jsonlite::read_json(temp_output_file)
+    file.remove(temp_output_file, temp_input_file)
+    r
+}
+# Helper functions for rmarkdown tests
+skip_if_not_pandoc <- function() {
+    if (!rmarkdown::pandoc_available()) {
+        skip("Pandoc is not available")
+    }
+}
+
 test_that(".is_valid_url", {
     expect_false(.is_valid_url("test"))
     expect_true(.is_valid_url("http://example.com"))
@@ -67,34 +92,11 @@ test_that("markdown link", {
 })
 
 
-test_that("rmarkdown", {
+
+test_that("rmarkdown renders with output file specified", {
     skip_on_cran()
-    skip_if_not_pandoc <- function() {
-        if (!rmarkdown::pandoc_available()) {
-            skip("Pandoc is not available")
-        }
-    }
-
-    render_rmd <- function(..., output_file = NULL, .env = parent.frame()) {
-        temp_input_file <- tempfile(fileext = ".Rmd")
-        text <- c(...)
-        writeLines(text, temp_input_file)
-        if (is.null(output_file)) {
-            temp_output_file <- paste0(tools::file_path_sans_ext(temp_input_file), ".json")
-        } else {
-            temp_output_file <- paste0(tools::file_path_sans_ext(output_file), ".json")
-        }
-        rmarkdown::render(temp_input_file,
-            output_file = output_file,
-            quiet = TRUE
-        )
-        r <- jsonlite::read_json(temp_output_file)
-        file.remove(temp_output_file, temp_input_file)
-        r
-    }
-
     skip_if_not_pandoc()
-    # Test output_file
+    
     output_file <- tempfile()
     rmd <- render_rmd(c(
         "---", "title: \"test\"",
@@ -105,8 +107,14 @@ test_that("rmarkdown", {
         "# Section 1",
         "This is a test"
     ), output_file = output_file)
+    
+    expect_true(!is.null(rmd))
+})
 
-
+test_that("rmarkdown renders with quoted title and tags", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
     rmd <- render_rmd(c(
         "---", "title: \"test\"",
         "output: ",
@@ -118,7 +126,12 @@ test_that("rmarkdown", {
     ))
     expect_equal(rmd$tags, "[[tag1]] [[tag 2]]")
     expect_equal(rmd$title, "test")
+})
 
+test_that("rmarkdown renders with unquoted title", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
     rmd <- render_rmd(c(
         "---", "title: test",
         "output: ",
@@ -130,7 +143,12 @@ test_that("rmarkdown", {
     ))
     expect_equal(rmd$tags, "[[tag1]] [[tag 2]]")
     expect_equal(rmd$title, "test")
+})
 
+test_that("rmarkdown renders with bookdown options", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
     rmd <- render_rmd(c(
         "---", "title: test",
         "output: ",
@@ -145,9 +163,12 @@ test_that("rmarkdown", {
     expect_equal(rmd$tags, "[[tag1]] [[tag 2]]")
     expect_equal(rmd$title, "test")
     expect_equal(rmd$type, "text/x-markdown")
+})
 
-
-    # Test renderwikitext
+test_that("rmarkdown preserves tiddlywiki double bracket links", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
     rmd <- render_rmd(c(
         "---", "title: \"test\"",
         "output: ",
@@ -157,8 +178,81 @@ test_that("rmarkdown", {
         "[[This is a test]]"
     ))
     expect_equal(rmd$text, "[[This is a test]]")
+})
 
 
+
+test_that("rmarkdown preserves tiddlywiki double bracket links", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
+    rmd <- render_rmd(c(
+        "---", "title: \"test\"",
+        "output: ",
+        "  tiddler_document:",
+        "    tags: [\"tag1\", \"tag 2\"]",
+        "---", "",
+        "[[This is a test|tiddler]]"
+    ))
+    expect_equal(rmd$text, "[[This is a test\\|tiddler]]")
+})
+
+test_that("escaped pipe is preserved", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+
+    rmd <- render_rmd(c(
+        "---", "title: \"test\"",
+        "output:",
+        "  tiddler_document:",
+        "    tags: [\"tag1\", \"tag 2\"]",
+        "---", "",
+        "[[A\\|B]]"
+    ))
+
+    expect_equal(rmd$text, "[[A\\|B]]")
+})
+
+test_that("wikilink inside text is preserved", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+
+    rmd <- render_rmd(c(
+        "---", "title: \"test\"",
+        "output:",
+        "  tiddler_document:",
+        "    tags: [\"tag1\", \"tag 2\"]",
+        "---", "",
+        "This is [[Test|Tiddler]] in a sentence."
+    ))
+
+    expect_equal(
+        rmd$text,
+        "This is [[Test\\|Tiddler]] in a sentence."
+    )
+})
+
+test_that("rmarkdown preserves tiddlywiki double bracket links", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
+    rmd <- render_rmd(c(
+        "---", "title: \"test\"",
+        "output: ",
+        "  tiddler_document:",
+        "    tags: [\"tag1\", \"tag 2\"]",
+        "---", "",
+        "[[This is a test|tiddler]] [[Another tiddler]]"
+    ))
+    expect_equal(rmd$text, "[[This is a test\\|tiddler]] [[Another tiddler]]")
+})
+
+
+
+test_that("rmarkdown preserves tiddlywiki transclusion syntax", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
     rmd <- render_rmd(c(
         "---", "title: \"test\"",
         "output: ",
@@ -168,7 +262,12 @@ test_that("rmarkdown", {
         "{{This is a test}}"
     ))
     expect_equal(rmd$text, "{{This is a test}}")
+})
 
+test_that("rmarkdown encodes markdown links with spaces", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
     rmd <- render_rmd(c(
         "---", "title: \"test\"",
         "output: ",
@@ -178,8 +277,12 @@ test_that("rmarkdown", {
         "test [md link](#tiddler 1) and [link](#tiddler2)"
     ))
     expect_equal(rmd$text, "test [md link](#tiddler%201) and [link](#tiddler2)")
+})
 
-    # Test fields
+test_that("rmarkdown renders custom fields", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
     rmd <- render_rmd(c(
         "---", "title: \"test\"",
         "output: ",
@@ -193,9 +296,13 @@ test_that("rmarkdown", {
     ))
     expect_equal(rmd$fields$field1, "V1")
     expect_equal(rmd$fields$`field 2`, "Value 2")
+})
 
-    # Test graph
-
+test_that("rmarkdown embeds ggplot images as base64", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    skip_if_not_installed("ggplot2")
+    
     rmd <- render_rmd(c(
         "---", "title: \"test\"",
         "output: ",
@@ -214,10 +321,12 @@ test_that("rmarkdown", {
         "```"
     ))
     expect_equal(grepl("data:image", rmd$text), TRUE)
+})
 
-
-    # Test macro
-
+test_that("rmarkdown preserves simple macro syntax", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
     rmd <- render_rmd(c(
         "---", "title: \"test\"",
         "output: ",
@@ -234,8 +343,12 @@ test_that("rmarkdown", {
         ">>"
     ))
     expect_equal(grepl("<<macro>>", rmd$text), TRUE)
+})
 
-
+test_that("rmarkdown preserves macro with triple quotes", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
     rmd <- render_rmd(c(
         "---", "title: \"test\"",
         "output: ",
@@ -252,8 +365,12 @@ test_that("rmarkdown", {
     ))
     expect_equal(grepl('"""', rmd$text), TRUE)
     expect_equal(grepl("<<alert", rmd$text), TRUE)
+})
 
-    # Test variant: gfm
+test_that("rmarkdown renders with gfm variant", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
     rmd <- render_rmd(c(
         "---", "title: \"test\"",
         "output: ",
@@ -271,8 +388,12 @@ test_that("rmarkdown", {
     ))
     expect_equal(grepl('"""', rmd$text), TRUE)
     expect_equal(grepl("<<alert", rmd$text), TRUE)
+})
 
-    # Test widget
+test_that("rmarkdown preserves tiddlywiki widget syntax", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    
     rmd <- render_rmd(c(
         "---", "title: \"test\"",
         "output: ",
@@ -289,13 +410,14 @@ test_that("rmarkdown", {
         '| <$widget p="C" /> |'
     ))
     expect_equal(grepl("<\\$widget", rmd$text), TRUE)
+})
 
-
-
-
-    # Test Tddlywiki
+test_that("rmarkdown with remote false does not upload to tiddlywiki", {
+    skip_on_cran()
+    skip_if_not_pandoc()
     skip_if(!is_test_tw())
-
+    skip_if_not_installed("ggplot2")
+    
     rmd <- render_rmd(c(
         "---", "title: \"rmarkdown test\"",
         "output: ",
@@ -312,7 +434,14 @@ test_that("rmarkdown", {
     ))
     tiddler <- get_tiddler("rmarkdown test")
     expect_null(tiddler)
+})
 
+test_that("rmarkdown with remote true uploads to tiddlywiki", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    skip_if(!is_test_tw())
+    skip_if_not_installed("ggplot2")
+    
     rmd <- render_rmd(c(
         "---", "title: \"rmarkdown test\"",
         "output: ",
@@ -339,8 +468,15 @@ test_that("rmarkdown", {
     expect_equal(tiddler$title, "rmarkdown test")
     expect_equal(tiddler$type, "text/x-markdown")
     expect_no_error(delete_tiddler("rmarkdown test"))
+})
 
-    # Test output file
+test_that("rmarkdown with remote true and output file uploads to tiddlywiki", {
+    skip_on_cran()
+    skip_if_not_pandoc()
+    skip_if(!is_test_tw())
+    skip_if_not_installed("ggplot2")
+    
+    output_file <- tempfile()
     rmd <- render_rmd(c(
         "---", "title: \"rmarkdown test\"",
         "output: ",

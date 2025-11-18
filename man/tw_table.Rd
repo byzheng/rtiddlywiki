@@ -19,6 +19,6 @@ Convert data.frame into table of TiddlyWiki
 }
 \examples{
 cars |>
-dplyr::slice(1:10) |>
-tw_table()
+    dplyr::slice(1:10) |>
+    tw_table()
 }
