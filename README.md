@@ -131,5 +131,5 @@ Install the developing version from [Github](https://github.com/byzheng/rtiddlyw
 
 
 ```r
-devtools::install_github('byzheng/rtiddlywiki')
+remotes::install_github('byzheng/rtiddlywiki')
 ```
