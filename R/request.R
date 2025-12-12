@@ -79,7 +79,7 @@ request <- function(method = "GET",
     req <- .check_ip(req)
 
     req <- req |> 
-        httr2::req_url_path_append(path) |>
+        httr2::req_url_path(path) |>
         httr2::req_method(method)
     
         

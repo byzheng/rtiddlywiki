@@ -17,7 +17,7 @@ BugReports: https://github.com/byzheng/rtiddlywiki/issues
 Imports:
    settings,
    stats,
-   httr2 (>= 1.2.0),
+   httr2 (>= 1.2.2),
    pingr,
    websocket,
    rmarkdown,
@@ -34,7 +34,7 @@ Imports:
    base64enc,
    htmltools,
    grDevices
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Suggests: 
     leaflet,
     dplyr,

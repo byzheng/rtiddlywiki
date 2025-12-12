@@ -143,6 +143,13 @@ test_that("tiddler", {
 
         expect_no_error(delete_tiddler(titles[i]))
     }
+
+
+    # Test tiddler title with space 
+    expect_no_error(put_tiddler("test tiddler", "This is a test tiddler"))
+    expect_no_error(new_tiddler <- get_tiddler("test tiddler"))
+    expect_equal(new_tiddler$title, "test tiddler")
+    expect_no_error(delete_tiddler("test tiddler"))
 })
 
 
