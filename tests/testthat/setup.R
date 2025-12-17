@@ -2,23 +2,24 @@
 cat("Starting test tiddlywiki server...\n")
 
 
-user_home <- Sys.getenv("USERPROFILE")   # Works on Windows
-npm_path <- file.path(user_home, "AppData", "Roaming", "npm")
-tiddlywiki_path <- file.path(npm_path, 'tiddlywiki')
-if (.Platform$OS.type == "windows") {
-    tiddlywiki_path <- paste0(tiddlywiki_path, ".cmd")
-}
-if (file.exists(tiddlywiki_path)) {
+# Find tiddlywiki in PATH (works cross-platform)
+tiddlywiki_path <- Sys.which("tiddlywiki")
+if (nzchar(tiddlywiki_path)) {
     tw_folder <- test_folder()
     system(paste0(tiddlywiki_path, " ", tw_folder, " --init server"))
 
     tiddlers <- list.files(testthat::test_path("tiddlers"), full.names = TRUE)
-
-    file.copy(tiddlers, file.path(tw_folder, "tiddlers"))
+    tiddlers_dir <- file.path(tw_folder, "tiddlers")
+    
+    # Ensure tiddlers directory exists and copy files
+    if (!dir.exists(tiddlers_dir)) {
+        dir.create(tiddlers_dir, recursive = TRUE)
+    }
+    file.copy(tiddlers, tiddlers_dir, overwrite = TRUE)
     Sys.sleep(2)
     server_process <- processx::process$new(
         tiddlywiki_path,
-          c(tw_folder, "--listen", "port=9090"),
+        c(tw_folder, "--listen", "port=9090"),
         # stdout = "wiki-stdout.txt",
         # stderr = "wiki-stderr.txt",
         cleanup_tree = TRUE
